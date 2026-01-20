@@ -79,3 +79,105 @@
     />
   </search-input-container>
 </template>
+
+<style lang="scss" scoped>
+common-function-block {
+  box-sizing: border-box;
+  scale: 0.8;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin: 1vw auto auto;
+  padding: 1vw;
+  background-color: #fff;
+  box-shadow: 0 2px 1vw rgba(0, 0, 0, 0.2);
+  width: 60%;
+  border-radius: 10px;
+
+  a {
+    all: unset;
+    cursor: pointer;
+    box-sizing: border-box;
+    margin: auto;
+
+    img {
+      transition: all 0.2s ease-in-out;
+      height: 5vw;
+    }
+
+    &:hover img {
+      transform: scale(1.2);
+    }
+  }
+
+  p {
+    margin: 0;
+    text-align: center;
+    font-size: 1.3vw;
+  }
+
+  divider {
+    display: inline-block;
+    height: 2vw;
+    width: 0.2vw;
+    background-color: #ccc;
+    margin: 0px 1vw;
+  }
+  @media screen and (max-width: 840px) {
+    width: 100%;
+    button {
+      width: 20%;
+      img {
+        height: 10vw;
+        position: relative;
+        left: 25%;
+      }
+      p {
+        font-size: 2vw;
+      }
+    }
+  }
+}
+
+search-input-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0px auto;
+  width: 50%;
+  padding: 0px 0.2vw;
+  height: 30px;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  border: #ccc solid 2px;
+  transition: border-color 0.3s ease-in-out;
+
+  &:focus-within {
+    border: #05bf90 solid 2px;
+  }
+
+  input {
+    all: unset;
+    width: 100%;
+    height: 100%;
+    padding: 0 0.5vw;
+    border: none;
+    border-radius: 5px;
+    font-size: 1vw;
+  }
+
+  img {
+    height: 20px;
+    margin-left: 10px;
+    cursor: pointer;
+  }
+  @media screen and (max-width: 840px) {
+    width: 80%;
+    input {
+      font-size: 2vw;
+    }
+  }
+}
+</style>
