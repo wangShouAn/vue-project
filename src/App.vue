@@ -437,7 +437,8 @@ swiper-slide {
   cursor: pointer;
   box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);
   overflow: hidden;
-
+  width: 80%;
+  left: 10%;
   img {
     position: relative;
     width: 100%;
