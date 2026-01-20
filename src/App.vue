@@ -62,7 +62,7 @@ const nextSlide = () => {
 onMounted(() => {
   autoPlayTimer = setInterval(() => {
     nextSlide()
-  }, 1000)
+  }, 3000)
 })
 
 onMounted(() => {
