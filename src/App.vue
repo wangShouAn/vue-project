@@ -8,6 +8,7 @@ import ProductAreaContainer from './components/ProductAreaContainer.vue'
 import PopularEvents from './components/PopularEvents.vue'
 import VideoArea from './components/VideoArea.vue'
 import Announcement from './components/Announcement.vue'
+import Footer from './components/Footer.vue'
 </script>
 
 <template>
@@ -24,5 +25,5 @@ import Announcement from './components/Announcement.vue'
     <VideoArea />
     <Announcement />
   </main>
-  <footer></footer>
+  <Footer />
 </template>
