@@ -47,6 +47,7 @@ const news = [
         <date> {{ item.d }} </date>
         <p>{{ item.p }}</p>
       </info-card-item>
+      <a href="#">看更多-></a>
     </info-card>
     <info-card>
       <h1>新聞稿</h1>
@@ -55,6 +56,7 @@ const news = [
         <date> {{ item.d }} </date>
         <p>{{ item.p }}</p>
       </info-card-item>
+      <a href="#">看更多-></a>
     </info-card>
   </announcement-and-event-container>
 </template>
@@ -75,10 +77,12 @@ announcement-and-event-container {
     flex-direction: column;
     justify-content: space-between;
     padding: 2vw;
+    margin-bottom: 10vw;
 
     h1 {
       text-align: center;
       font-size: 2vw;
+      color: #008e6a;
     }
     info-card-item {
       border-bottom: 1px solid #ccc;
@@ -95,7 +99,8 @@ announcement-and-event-container {
         color: #999;
       }
       tag {
-        display: inline;
+        margin-top: 0.5vw;
+        display: inline-block;
         font-size: 1.2vw;
         margin-right: 0.5vw;
         color: #fff;
@@ -105,7 +110,7 @@ announcement-and-event-container {
         padding: 0.5vw;
         text-align: center;
         &.green {
-          background-color: #00b300;
+          background-color: #008e6a;
         }
         &.blue {
           background-color: #0077be;
@@ -116,6 +121,46 @@ announcement-and-event-container {
         &.purple {
           background-color: #9933cc;
         }
+      }
+    }
+    a {
+      display: block;
+      text-align: center;
+      font-size: 1.5vw;
+      margin-top: 2vw;
+      color: #fff;
+      border-radius: 2vw;
+      background-color: #008e6a;
+      text-decoration: none;
+      width: 8vw;
+      margin: 2vw auto 0 auto;
+      padding: 0.5vw;
+    }
+  }
+  @media screen and (max-width: 840px) {
+    flex-direction: column;
+    info-card {
+      width: 80%;
+      margin: 0 auto;
+      margin-bottom: 2vw;
+      h1 {
+        font-size: 4vw;
+      }
+      info-card-item {
+        p {
+          font-size: 3vw;
+        }
+        date {
+          font-size: 3vw;
+        }
+        tag {
+          font-size: 3vw;
+        }
+      }
+      a {
+        font-size: 4vw;
+        width: 20vw;
+        margin-top: 4vw;
       }
     }
   }
