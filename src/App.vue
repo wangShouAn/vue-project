@@ -11,7 +11,9 @@ import PopularEvents from './components/PopularEvents.vue'
 <template>
   <NavArea />
   <main>
-    <section><SwiperSlide /></section>
+    <section>
+      <SwiperSlide />
+    </section>
 
     <section>
       <CommonFunctionContainer />
@@ -149,24 +151,31 @@ video-area-block {
       }
     }
   }
+
   @media screen and (max-width: 840px) {
     flex-direction: column;
+
     iframe {
       width: 100vw;
       height: 55vw;
     }
+
     video-content {
       width: 100vw;
+
       h1 {
         display: none;
       }
+
       video-card {
         background-color: #ffffff00;
+
         h2 {
           font-size: 2.5vw;
           position: relative;
           left: 25%;
         }
+
         p {
           font-size: 1.5vw;
         }
@@ -212,17 +221,21 @@ video-action {
         border: #22bc95 solid 0.2vw;
       }
     }
+
     @media screen and (max-width: 840px) {
       width: 100%;
       height: 15vw;
       justify-content: center;
+
       button {
         width: 10vw;
         height: 10vw;
         border: #fff solid 0.5vw;
+
         &:hover {
           border: #22bc95 solid 0.5vw;
         }
+
         img {
           width: 20vw;
           height: 16vw;
@@ -255,6 +268,7 @@ video-action {
       height: 2vw;
       transition: all 0.3s ease-in-out;
     }
+
     @media screen and (max-width: 840px) {
       button {
         top: 100%;
@@ -264,6 +278,7 @@ video-action {
       }
     }
   }
+
   @media screen and (max-width: 840px) {
     flex-direction: column;
   }
