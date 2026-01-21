@@ -338,36 +338,33 @@ swiper-slide {
   overflow: hidden;
   width: 80%;
   left: 10%;
-  img {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    &.left {
-      position: absolute;
-      opacity: 0;
-      transform: translate(-100%, 0);
-      z-index: 1000;
+img {
+  position: absolute; /* 全部絕對定位重疊 */
+  width: 100%;
+  transition: all 0.5s ease-in-out; /* 統一在這裡寫過渡 */
 
-      &.action {
-        transform: translate(0%, 0);
-        opacity: 1;
-        transition: all 0.5s ease-in-out;
-      }
-    }
+  /* 中間圖：預設在中間 */
+  transform: translateX(0);
+  opacity: 1;
 
-    &.right {
-      position: absolute;
-      opacity: 0;
-      transform: translate(0%, 0%);
-      z-index: 1000;
+  /* 當按下 next 時，中間圖向左滑出並變透明 */
+  &.center-active {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
 
-      &.action {
-        transform: translate(-100%, 0%);
-        opacity: 1;
-        transition: all 0.5s ease-in-out;
-      }
+  /* 右邊圖：預設在右邊隱形 */
+  &.right {
+    transform: translateX(100%);
+    opacity: 0;
+
+    /* 當按下 next 時，右邊圖向左滑入中間 */
+    &.action {
+      transform: translateX(0);
+      opacity: 1;
     }
   }
+}
   @media screen and (max-width: 840px) {
     width: 90%;
     left: 0;
