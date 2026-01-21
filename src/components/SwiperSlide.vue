@@ -2,12 +2,30 @@
 import { ref, onMounted } from 'vue'
 
 const swiper_slide_list = ref([
-  'https://my.tcb-life.com.tw/file/3/web_hero_banner.jpg',
-  'https://live.staticflickr.com/65535/48636142963_4472ed6c8f.jpg',
-  'https://my.tcb-life.com.tw/file/677/web_hero_banner2.png',
-  'https://my.tcb-life.com.tw/file/731/史博館 綻放 2880x990.JPG',
-  'https://my.tcb-life.com.tw/file/680/電銷-馨健康依靠 0911合庫BN_2880 x 990.jpg',
-  'https://my.tcb-life.com.tw/file/681/公關-安心守護計畫20250827_RESIZE-2880X990.JPEG',
+  {
+    img: 'https://my.tcb-life.com.tw/file/3/web_hero_banner.jpg',
+    url: 'https://my.tcb-life.com.tw/charity-coffee'
+  },
+  {
+    img: 'https://live.staticflickr.com/65535/48636142963_4472ed6c8f.jpg',
+    url: 'https://www.youtube.com/?authuser=0'
+  },
+  {
+    img: 'https://my.tcb-life.com.tw/file/677/web_hero_banner2.png',
+    url: 'https://my.tcb-life.com.tw/family-care'
+  },
+  {
+    img: 'https://my.tcb-life.com.tw/file/731/史博館 綻放 2880x990.JPG',
+    url: 'https://www.tcb-life-online.com.tw/ebiz/member/preregistration?&utm_source=tcblifeBN&utm_medium=BN&utm_campaign=Flower'
+  },
+  {
+    img: 'https://my.tcb-life.com.tw/file/680/電銷-馨健康依靠 0911合庫BN_2880 x 990.jpg',
+    url: 'https://mhu.tcb-life.com.tw/landingpage/20180718002/landingpage.aspx?p=eoVIxvGLTDROgjLjpBGUpwGGulod1pzinHG3kyp2Aqs%3d&k=bwWXa3hq4BFeFdDTa1ehVWFOo%2fahlqjqLVRKU3Q3j8WeA1h6yubB%2bKLH26t1o0SgijEadmbtnIiIJCEAnkNCGKgluFyD6qTxaWqZVst5Vox%2fUHp3%2bwDJ54ux7wT2kZj5&si=druanfqdyqgpz24xgxfecbtn'
+  },
+  {
+    img: 'https://my.tcb-life.com.tw/file/681/公關-安心守護計畫20250827_RESIZE-2880X990.JPEG',
+    url: 'https://my.tcb-life.com.tw/family-care'
+  },
 ])
 
 const swiper_index = ref(0)
@@ -36,7 +54,7 @@ const prevSlide = () => {
 }
 
 onMounted(() => {
-  autoPlayTimer = setInterval(nextSlide, 3500)
+  autoPlayTimer = setInterval(nextSlide, 5000)
 })
 </script>
 
@@ -48,17 +66,16 @@ onMounted(() => {
         <button class="arrow-btn right" @click="nextSlide">❯</button>
 
         <Transition :name="direction">
-          <img :key="swiper_index" :src="swiper_slide_list[swiper_index]" draggable="false" />
+          <div :key="swiper_index" class="slide-item">
+            <a :href="swiper_slide_list[swiper_index].url" target="_blank" rel="noopener noreferrer">
+              <img :src="swiper_slide_list[swiper_index].img" draggable="false" />
+            </a>
+          </div>
         </Transition>
 
         <div class="pagination">
-          <span 
-            v-for="(item, index) in swiper_slide_list" 
-            :key="index" 
-            class="dot"
-            :class="{ active: swiper_index === index }" 
-            @click="changeSlide(index)"
-          ></span>
+          <span v-for="(item, index) in swiper_slide_list" :key="index" class="dot"
+            :class="{ active: swiper_index === index }" @click="changeSlide(index)"></span>
         </div>
       </div>
     </section>
@@ -71,6 +88,28 @@ section {
   display: flex;
   justify-content: center;
   padding: 20px 0;
+}
+
+/* 確保 Transition 的容器撐滿 */
+.slide-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  a {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 }
 
 .swiper-slide {
@@ -98,25 +137,32 @@ section {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: none;       
+  background: none;
   border: none;
-  color: white;          
-  font-size: 40px;        
+  color: white;
+  font-size: 40px;
   font-weight: bold;
   cursor: pointer;
   z-index: 20;
   padding: 0 20px;
   transition: transform 0.2s ease, opacity 0.3s;
-  opacity: 0.7;           
+  opacity: 0.7;
   text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 
   &:hover {
-    opacity: 1;           
-    transform: translateY(-50%) scale(1.2); 
+    opacity: 1;
+    transform: translateY(-50%) scale(1.2);
   }
-  &.left { left: 10px; }
-  &.right { right: 10px; }
+
+  &.left {
+    left: 10px;
+  }
+
+  &.right {
+    right: 10px;
+  }
 }
+
 .pagination {
   position: absolute;
   bottom: 20px;
@@ -133,9 +179,11 @@ section {
     border-radius: 50%;
     cursor: pointer;
     transition: all 0.3s ease;
+
     &.hover {
       background-color: #77db38;
     }
+
     &.active {
       width: 30px;
       border-radius: 6px;
@@ -145,15 +193,27 @@ section {
 }
 
 /* 由右往左滑 */
-.slide-right-enter-from { transform: translateX(100%); }
-.slide-right-leave-to { transform: translateX(-100%); }
+.slide-right-enter-from {
+  transform: translateX(100%);
+}
+
+.slide-right-leave-to {
+  transform: translateX(-100%);
+}
 
 /* 由左往右滑 */
-.slide-left-enter-from { transform: translateX(-100%); }
-.slide-left-leave-to { transform: translateX(100%); }
+.slide-left-enter-from {
+  transform: translateX(-100%);
+}
 
-.slide-right-enter-active, .slide-right-leave-active,
-.slide-left-enter-active, .slide-left-leave-active {
+.slide-left-leave-to {
+  transform: translateX(100%);
+}
+
+.slide-right-enter-active,
+.slide-right-leave-active,
+.slide-left-enter-active,
+.slide-left-leave-active {
   transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 </style>
