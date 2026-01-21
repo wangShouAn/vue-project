@@ -73,6 +73,10 @@ onMounted(() => {
           </div>
         </Transition>
 
+        <div class="progress-container">
+          <div :key="swiper_index" class="progress-bar"></div>
+        </div>
+
         <div class="pagination">
           <span v-for="(item, index) in swiper_slide_list" :key="index" class="dot"
             :class="{ active: swiper_index === index }" @click="changeSlide(index)"></span>
@@ -215,5 +219,33 @@ section {
 .slide-left-enter-active,
 .slide-left-leave-active {
   transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progress-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  /* 進度條高度 */
+  background: rgba(255, 255, 255, 0.2);
+  z-index: 15;
+}
+
+.progress-bar {
+  height: 100%;
+  background: #ffffff;
+  width: 0;
+  animation: progressAnimation 5.5s linear forwards;
+}
+
+@keyframes progressAnimation {
+  from {
+    width: 0%;
+  }
+
+  to {
+    width: 100%;
+  }
 }
 </style>
