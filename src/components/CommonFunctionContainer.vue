@@ -1,3 +1,4 @@
+<script></script>
 <template>
   <common-function-block>
     <a href="https://www.google.com/">
@@ -139,7 +140,6 @@ common-function-block {
     }
   }
 }
-
 search-input-container {
   display: flex;
   justify-content: center;
