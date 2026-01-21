@@ -40,8 +40,10 @@
     margin-left: 10px;
     cursor: pointer;
   }
+
   @media screen and (max-width: 840px) {
     width: 80%;
+
     input {
       font-size: 2vw;
     }
