@@ -177,7 +177,7 @@ const handleMouseLeave = () => {
     </section>
     <section>
       <product-area-container>
-        <button v-for="product in product_items">
+        <button v-for="product in product_items" :key="product.id">
           <img :src="product.img" alt="" />
           <h2>{{ product.name }}</h2>
           <p>{{ product.desc }}</p>
