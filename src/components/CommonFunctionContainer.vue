@@ -121,7 +121,7 @@ common-function-block {
   }
   @media screen and (max-width: 840px) {
     width: 100%;
-    button {
+    a {
       width: 20%;
       img {
         height: 10vw;
