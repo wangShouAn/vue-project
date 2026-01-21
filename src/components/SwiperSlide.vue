@@ -54,7 +54,7 @@ const prevSlide = () => {
 }
 
 onMounted(() => {
-  autoPlayTimer = setInterval(nextSlide, 5000)
+  autoPlayTimer = setInterval(nextSlide, 5500)
 })
 </script>
 
