@@ -13,85 +13,75 @@ const swiper = ref(null)
 let autoPlayTimer = null
 
 const nextSlide = () => {
-  raction.value = true
+  if (raction.value) return; // 防止動畫中重複點擊
 
+  raction.value = true;
+
+  // 動和畫時間 (500ms) 結束後，再切換資料
   setTimeout(() => {
-    swiper_index.value = (swiper_index.value + 1) % swiper_slide_list.value.length
-
-    raction.value = false
-  }, 500)
-}
+    swiper_index.value = (swiper_index.value + 1) % swiper_slide_list.value.length;
+    raction.value = false;
+    // 注意：這裡 raction 變回 false 的瞬間，圖片索引已換成下一張，
+    // 且該圖預設就是 translateX(0)，所以視覺上會無縫接軌。
+  }, 500);
+};
 
 onMounted(() => {
-  try {
-    autoPlayTimer = setInterval(() => {
-      nextSlide()
-    }, 3000)
-  } catch (err) {
-    console.error('onMounted 發生錯誤:', err)
-  }
+  autoPlayTimer = setInterval(nextSlide, 3500)
 })
 </script>
-<template>
-  <div class="swiper-slide" ref="swiper">
-    <img :src="swiper_slide_list[(swiper_index - 1 + swiper_slide_list.length) % swiper_slide_list.length]
-      " width="75%" draggable="false" class="left" />
-    <img :src="swiper_slide_list[swiper_index]" width="75%" :draggable="false"
-      style="transform: scaleY(1.025); position: relative; top: 0.2vw" />
 
-    <img :src="swiper_slide_list[(swiper_index + 1) % swiper_slide_list.length]" width="75%" draggable="false"
-      class="right" :class="{ action: raction }" />
-  </div>
+<template>
+  <main>
+    <section>
+      <div class="swiper-slide">
+        <img :src="swiper_slide_list[swiper_index]" draggable="false" />
+      </div>
+    </section>
+
+  </main>
 </template>
 
 <style lang="scss" scoped>
-.swiper-slide {
+swiper-slide {
   margin-top: 25px;
   display: block;
   position: relative;
+  width: 75%; // 設定寬度
+  margin-left: auto;
+  margin-right: auto;
+  aspect-ratio: 2880 / 990; // 根據你圖片的原始比例設定高度
   border-radius: 5vw;
-  cursor: pointer;
   box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);
   overflow: hidden;
-  width: 80%;
-  left: 10%;
+  background-color: #f0f0f0; // 預載入背景色
 
-  img {
+  .swiper-slide {
+    margin-top: 25px;
+    display: block;
     position: relative;
-    width: 100%;
-    height: 100%;
 
-    &.left {
+    /* --- 置中關鍵設定 --- */
+    width: 85%; // 調整 Banner 寬度
+    margin-left: auto; // 自動推擠左側空間
+    margin-right: auto; // 自動推擠右側空間
+    /* ------------------ */
+
+    aspect-ratio: 2880 / 990;
+
+    /* ✨ 左右弧度不一樣的精緻寫法 ✨ */
+    border-radius: 40% 60% 40% 70% / 60% 50% 70% 40%;
+
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    background-color: #f0f0f0;
+
+    img {
       position: absolute;
-      opacity: 0;
-      transform: translate(-100%, 0);
-      z-index: 1000;
-
-      &.action {
-        transform: translate(0%, 0);
-        opacity: 1;
-        transition: all 0.5s ease-in-out;
-      }
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover; // 確保圖片不變形地填滿置中容器
     }
-
-    &.right {
-      position: absolute;
-      opacity: 0;
-      transform: translate(0%, 0%);
-      z-index: 1000;
-
-      &.action {
-        transform: translate(-100%, 0%);
-        opacity: 1;
-        transition: all 0.5s ease-in-out;
-      }
-    }
-  }
-
-  @media screen and (max-width: 840px) {
-    width: 90%;
-    left: 0;
-    transform: translateX(5%);
-  }
-}
-</style>
+  }}</style>
