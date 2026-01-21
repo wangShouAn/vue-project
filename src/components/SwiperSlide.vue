@@ -34,28 +34,13 @@ onMounted(() => {
 </script>
 <template>
   <div class="swiper-slide" ref="swiper">
-    <img
-      :src="
-        swiper_slide_list[(swiper_index - 1 + swiper_slide_list.length) % swiper_slide_list.length]
-      "
-      width="75%"
-      draggable="false"
-      class="left"
-    />
-    <img
-      :src="swiper_slide_list[swiper_index]"
-      width="75%"
-      :draggable="false"
-      style="transform: scaleY(1.025); position: relative; top: 0.2vw"
-    />
+    <img :src="swiper_slide_list[(swiper_index - 1 + swiper_slide_list.length) % swiper_slide_list.length]
+      " width="75%" draggable="false" class="left" />
+    <img :src="swiper_slide_list[swiper_index]" width="75%" :draggable="false"
+      style="transform: scaleY(1.025); position: relative; top: 0.2vw" />
 
-    <img
-      :src="swiper_slide_list[(swiper_index + 1) % swiper_slide_list.length]"
-      width="75%"
-      draggable="false"
-      class="right"
-      :class="{ action: raction }"
-    />
+    <img :src="swiper_slide_list[(swiper_index + 1) % swiper_slide_list.length]" width="75%" draggable="false"
+      class="right" :class="{ action: raction }" />
   </div>
 </template>
 
@@ -70,10 +55,12 @@ onMounted(() => {
   overflow: hidden;
   width: 80%;
   left: 10%;
+
   img {
     position: relative;
     width: 100%;
     height: 100%;
+
     &.left {
       position: absolute;
       opacity: 0;
@@ -100,6 +87,7 @@ onMounted(() => {
       }
     }
   }
+
   @media screen and (max-width: 840px) {
     width: 90%;
     left: 0;

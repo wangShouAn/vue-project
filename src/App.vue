@@ -56,98 +56,65 @@ const handleMouseLeave = () => {
 <template>
   <div ref="Sticky" class="Sticky"></div>
   <nav :class="{ 'is-sticky': isNavSticky }">
-    <img
-      src="https://my.tcb-life.com.tw/assets/%E5%90%88%E5%BA%AB%E4%BA%BA%E5%A3%BDLOGO-hrqQj5ac.svg"
-    />
+    <img src="https://my.tcb-life.com.tw/assets/%E5%90%88%E5%BA%AB%E4%BA%BA%E5%A3%BDLOGO-hrqQj5ac.svg" />
 
     <item>
       <button @mouseenter="handleMouseEnter(1)" @mouseleave="handleMouseLeave">保戶服務</button>
-      <menu
-        @mouseenter="handleMouseEnter(1)"
-        @mouseleave="handleMouseLeave"
-        v-if="menuSeletor === 1"
-      ></menu>
+      <menu @mouseenter="handleMouseEnter(1)" @mouseleave="handleMouseLeave" v-if="menuSeletor === 1"></menu>
     </item>
 
     <button>安心守護</button>
 
     <item>
       <button @mouseenter="handleMouseEnter(2)" @mouseleave="handleMouseLeave">所有商品</button>
-      <menu
-        @mouseenter="handleMouseEnter(2)"
-        @mouseleave="handleMouseLeave"
-        v-if="menuSeletor === 2"
-      ></menu>
+      <menu @mouseenter="handleMouseEnter(2)" @mouseleave="handleMouseLeave" v-if="menuSeletor === 2"></menu>
     </item>
 
     <item>
       <button @mouseenter="handleMouseEnter(3)" @mouseleave="handleMouseLeave">公平待客</button>
-      <menu
-        @mouseenter="handleMouseEnter(3)"
-        @mouseleave="handleMouseLeave"
-        v-if="menuSeletor === 3"
-      ></menu>
+      <menu @mouseenter="handleMouseEnter(3)" @mouseleave="handleMouseLeave" v-if="menuSeletor === 3"></menu>
     </item>
 
     <item>
       <button @mouseenter="handleMouseEnter(4)" @mouseleave="handleMouseLeave">保險知識庫</button>
-      <menu
-        @mouseenter="handleMouseEnter(4)"
-        @mouseleave="handleMouseLeave"
-        v-if="menuSeletor === 4"
-      ></menu>
+      <menu @mouseenter="handleMouseEnter(4)" @mouseleave="handleMouseLeave" v-if="menuSeletor === 4"></menu>
     </item>
 
     <item>
       <button @mouseenter="handleMouseEnter(5)" @mouseleave="handleMouseLeave">關於我們</button>
-      <menu
-        @mouseenter="handleMouseEnter(5)"
-        @mouseleave="handleMouseLeave"
-        v-if="menuSeletor === 5"
-      ></menu>
+      <menu @mouseenter="handleMouseEnter(5)" @mouseleave="handleMouseLeave" v-if="menuSeletor === 5"></menu>
     </item>
 
     <search @mouseenter="handleMouseEnter(6)" @mouseleave="handleMouseLeave">🔍</search>
-    <menu
-      @mouseenter="handleMouseEnter(6)"
-      @mouseleave="handleMouseLeave"
-      v-if="menuSeletor === 6"
-    ></menu>
+    <menu @mouseenter="handleMouseEnter(6)" @mouseleave="handleMouseLeave" v-if="menuSeletor === 6"></menu>
   </nav>
 
   <main>
-    <section><SwiperSlide /></section>
+    <section>
+      <SwiperSlide />
+    </section>
 
     <section>
       <CommonFunctionContainer />
       <SearchInputContainer />
     </section>
     <InteractiveSituation />
-    <section><ProductAreaContainer /></section>
+    <section>
+      <ProductAreaContainer />
+    </section>
     <section>
       <popular-events-header>
         <h1>熱門活動</h1>
       </popular-events-header>
       <a id="gf" href="#" style="margin: 5vw 12.5%; width: 75%; position: relative">
-        <img
-          src="https://my.tcb-life.com.tw/api/assets/b3b9cf03-081c-452a-880c-7596c41b0821"
-          style="width: 75%"
-        />
-        <img
-          id="gfr"
-          src="https://my.tcb-life.com.tw/api/assets/e089121e-078b-41d1-93b4-0b38c41b9f77"
-        />
+        <img src="https://my.tcb-life.com.tw/api/assets/b3b9cf03-081c-452a-880c-7596c41b0821" style="width: 75%" />
+        <img id="gfr" src="https://my.tcb-life.com.tw/api/assets/e089121e-078b-41d1-93b4-0b38c41b9f77" />
       </a>
     </section>
     <section>
       <video-area-block>
-        <iframe
-          width="724"
-          height="395"
-          src="https://www.youtube.com/embed/fYnGJwbBBIQ"
-          title="🎥 合庫人壽校園巡講精華合輯"
-          frameborder="0"
-          allow="
+        <iframe width="724" height="395" src="https://www.youtube.com/embed/fYnGJwbBBIQ" title="🎥 合庫人壽校園巡講精華合輯"
+          frameborder="0" allow="
             accelerometer;
             autoplay;
             clipboard-write;
@@ -155,10 +122,7 @@ const handleMouseLeave = () => {
             gyroscope;
             picture-in-picture;
             web-share;
-          "
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen
-        ></iframe>
+          " referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
         <video-content>
           <h1>影音專區</h1>
@@ -276,31 +240,38 @@ popular-events-header {
   left: 20%;
   transform: translateX(-50%);
   transform: translateY(-3vw);
+
   h1 {
     color: #0e8e6c;
     font-size: 1.5vw;
   }
+
   @media screen and (max-width: 840px) {
     left: 10%;
+
     h1 {
       font-size: 2.5vw;
     }
   }
 }
+
 #gf {
   #gfr {
     display: none;
   }
+
   @media screen and (max-width: 840px) {
     img {
       display: none;
     }
+
     #gfr {
       display: block;
       width: 100%;
     }
   }
 }
+
 video-area-block {
   display: flex;
   justify-content: center;
@@ -357,24 +328,31 @@ video-area-block {
       }
     }
   }
+
   @media screen and (max-width: 840px) {
     flex-direction: column;
+
     iframe {
       width: 100vw;
       height: 55vw;
     }
+
     video-content {
       width: 100vw;
+
       h1 {
         display: none;
       }
+
       video-card {
         background-color: #ffffff00;
+
         h2 {
           font-size: 2.5vw;
           position: relative;
           left: 25%;
         }
+
         p {
           font-size: 1.5vw;
         }
@@ -420,17 +398,21 @@ video-action {
         border: #22bc95 solid 0.2vw;
       }
     }
+
     @media screen and (max-width: 840px) {
       width: 100%;
       height: 15vw;
       justify-content: center;
+
       button {
         width: 10vw;
         height: 10vw;
         border: #fff solid 0.5vw;
+
         &:hover {
           border: #22bc95 solid 0.5vw;
         }
+
         img {
           width: 20vw;
           height: 16vw;
@@ -463,6 +445,7 @@ video-action {
       height: 2vw;
       transition: all 0.3s ease-in-out;
     }
+
     @media screen and (max-width: 840px) {
       button {
         top: 100%;
@@ -472,6 +455,7 @@ video-action {
       }
     }
   }
+
   @media screen and (max-width: 840px) {
     flex-direction: column;
   }
