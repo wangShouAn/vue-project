@@ -11,24 +11,28 @@ const swiper_slide_list = ref([
 ])
 
 const swiper_index = ref(0)
+const direction = ref('slide-right') // 核心：控制動畫方向
 let autoPlayTimer = null
 
-const direction = ref('slide-right') // 預設方向
-
-const changeSlide = (newIndex) => {
-  // 比較新舊索引決定方向
-  if (newIndex > swiper_index.value) {
-    direction.value = 'slide-right' // 從右邊進來
+// 統一的切換邏輯
+const changeSlide = (newIndex, customDirection = null) => {
+  if (customDirection) {
+    direction.value = customDirection
   } else {
-    direction.value = 'slide-left'  // 從左邊進來
+    // 自動判斷：如果新索引較小，則從左邊滑入 (slide-left)
+    direction.value = newIndex > swiper_index.value ? 'slide-right' : 'slide-left'
   }
-
   swiper_index.value = newIndex
 }
 
 const nextSlide = () => {
   const nextIndex = (swiper_index.value + 1) % swiper_slide_list.value.length
-  changeSlide(nextIndex)
+  changeSlide(nextIndex, 'slide-right') // 自動輪播固定向右
+}
+
+const prevSlide = () => {
+  const prevIndex = (swiper_index.value - 1 + swiper_slide_list.value.length) % swiper_slide_list.value.length
+  changeSlide(prevIndex, 'slide-left') // 點擊左箭頭固定向左
 }
 
 onMounted(() => {
@@ -40,13 +44,21 @@ onMounted(() => {
   <main>
     <section>
       <div class="swiper-slide">
+        <button class="arrow-btn left" @click="prevSlide">❮</button>
+        <button class="arrow-btn right" @click="nextSlide">❯</button>
+
         <Transition :name="direction">
           <img :key="swiper_index" :src="swiper_slide_list[swiper_index]" draggable="false" />
         </Transition>
 
         <div class="pagination">
-          <span v-for="(item, index) in swiper_slide_list" :key="index" class="dot"
-            :class="{ active: swiper_index === index }" @click="changeSlide(index)"></span>
+          <span 
+            v-for="(item, index) in swiper_slide_list" 
+            :key="index" 
+            class="dot"
+            :class="{ active: swiper_index === index }" 
+            @click="changeSlide(index)"
+          ></span>
         </div>
       </div>
     </section>
@@ -66,11 +78,9 @@ section {
   width: 85%;
   max-width: 1200px;
   aspect-ratio: 2880 / 990;
-
-  /* 你的特殊弧度 */
   border-radius: 10% 96% 9% 5% / 90% 5% 8% 90%;
   box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.1);
-  overflow: hidden; // 裁切滑動中的圖片
+  overflow: hidden;
   background-color: #f0f0f0;
 
   img {
@@ -83,17 +93,38 @@ section {
   }
 }
 
+/* 箭頭 */
+.arrow-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;       
+  border: none;
+  color: white;          
+  font-size: 40px;        
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 20;
+  padding: 0 20px;
+  transition: transform 0.2s ease, opacity 0.3s;
+  opacity: 0.7;           
+  text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+
+  &:hover {
+    opacity: 1;           
+    transform: translateY(-50%) scale(1.2); 
+  }
+  &.left { left: 10px; }
+  &.right { right: 10px; }
+}
 .pagination {
   position: absolute;
   bottom: 20px;
-  /* 距離底部距離 */
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   gap: 10px;
-  /* 點點之間的間距 */
   z-index: 10;
-  /* 確保在圖片上方 */
 
   .dot {
     width: 12px;
@@ -102,29 +133,25 @@ section {
     border-radius: 50%;
     cursor: pointer;
     transition: all 0.3s ease;
-    
+    &.hover {
+      background-color: #77db38;
+    }
     &.active {
       width: 30px;
-      /* 變長像進度條 */
       border-radius: 6px;
-      background-color: #82e159;
-    }
-
-    &:hover {
-      background-color: #82e159;
+      background-color: #77db38;
     }
   }
 }
 
-/* --- 從右滑向左 --- */
+/* 由右往左滑 */
 .slide-right-enter-from { transform: translateX(100%); }
 .slide-right-leave-to { transform: translateX(-100%); }
 
-/* --- 從左滑向右 --- */
+/* 由左往右滑 */
 .slide-left-enter-from { transform: translateX(-100%); }
 .slide-left-leave-to { transform: translateX(100%); }
 
-/* 共同設定：進場與離開的過渡效果 */
 .slide-right-enter-active, .slide-right-leave-active,
 .slide-left-enter-active, .slide-left-leave-active {
   transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
