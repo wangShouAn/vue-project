@@ -74,20 +74,11 @@ const prevSlide = () => {
 
         <!-- 分頁點點 (包含進度條) -->
         <div class="pagination">
-          <span 
-            v-for="(item, index) in swiper_slide_list" 
-            :key="index" 
-            class="dot"
-            :class="{ active: swiper_index === index }" 
-            @click="changeSlide(index)"
-          >
+          <span v-for="(item, index) in swiper_slide_list" :key="index" class="dot"
+            :class="{ active: swiper_index === index }" @click="changeSlide(index)">
             <!-- ✨ 關鍵修改：監聽 animationend 事件 ✨ -->
             <!-- 當進度條動畫跑完時，自動呼叫 nextSlide -->
-            <div 
-              v-if="swiper_index === index" 
-              class="inner-bar"
-              @animationend="nextSlide"
-            ></div>
+            <div v-if="swiper_index === index" class="inner-bar" @animationend="nextSlide"></div>
           </span>
         </div>
       </div>
@@ -167,8 +158,13 @@ section {
     transform: translateY(-50%) scale(1.2);
   }
 
-  &.left { left: 10px; }
-  &.right { right: 10px; }
+  &.left {
+    left: 10px;
+  }
+
+  &.right {
+    right: 10px;
+  }
 }
 
 /* 點點與進度條樣式 */
@@ -183,15 +179,16 @@ section {
 
   .dot {
     width: 10px;
-    height: 5px;
+    height: 10px;
     background-color: rgba(255, 255, 255, 0.5);
     border-radius: 50%;
     cursor: pointer;
-    position: relative; /* 為 inner-bar 定位 */
-    overflow: hidden;   /* 裁切進度條 */
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.5, 1); /* 讓變長的效果更有彈性 */
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    box-sizing: border-box;
 
-    /* Active 狀態：變長 */
     &.active {
       width: 200px;
       border-radius: 6px;
@@ -202,32 +199,45 @@ section {
       background-color: rgb(255, 255, 255);
     }
 
-    /* 內部的綠色進度條 */
     .inner-bar {
       position: absolute;
       top: 0;
       left: 0;
       height: 100%;
-      background-color: #77db38; /* 主題綠色 */
+      background-color: #77db38;
       width: 0;
-      /* 時間控制在這裡：5.5s */
       animation: dotProgress 5.5s linear forwards;
     }
   }
 }
 
 @keyframes dotProgress {
-  from { width: 0%; }
-  to { width: 100%; }
+  from {
+    width: 0%;
+  }
+
+  to {
+    width: 100%;
+  }
 }
 
 /* 動畫邏輯：由右往左滑 (預設) */
-.slide-right-enter-from { transform: translateX(100%); }
-.slide-right-leave-to { transform: translateX(-100%); }
+.slide-right-enter-from {
+  transform: translateX(100%);
+}
+
+.slide-right-leave-to {
+  transform: translateX(-100%);
+}
 
 /* 動畫邏輯：由左往右滑 (後退) */
-.slide-left-enter-from { transform: translateX(-100%); }
-.slide-left-leave-to { transform: translateX(100%); }
+.slide-left-enter-from {
+  transform: translateX(-100%);
+}
+
+.slide-left-leave-to {
+  transform: translateX(100%);
+}
 
 /* 動畫過程設定 */
 .slide-right-enter-active,
