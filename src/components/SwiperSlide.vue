@@ -72,12 +72,9 @@ const prevSlide = () => {
           </div>
         </Transition>
 
-        <!-- 分頁點點 (包含進度條) -->
         <div class="pagination">
           <span v-for="(item, index) in swiper_slide_list" :key="index" class="dot"
             :class="{ active: swiper_index === index }" @click="changeSlide(index)">
-            <!-- ✨ 關鍵修改：監聽 animationend 事件 ✨ -->
-            <!-- 當進度條動畫跑完時，自動呼叫 nextSlide -->
             <div v-if="swiper_index === index" class="inner-bar" @animationend="nextSlide"></div>
           </span>
         </div>
