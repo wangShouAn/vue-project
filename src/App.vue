@@ -1,44 +1,23 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import SwiperSlide from './components/SwiperSlide.vue'
 import CommonFunctionContainer from './components/CommonFunctionContainer.vue'
+import SearchInputContainer from './components/SearchInputContainer.vue'
+import InteractiveSituation from './components/InteractiveSituation.vue'
 import ProductAreaContainer from './components/ProductAreaContainer.vue'
 
 const isNavSticky = ref(false)
 const Sticky = ref(null)
 const menuSeletor = ref(0)
-const swiper_slide_list = ref([
-  'https://my.tcb-life.com.tw/file/3/web_hero_banner.jpg',
-  'https://my.tcb-life.com.tw/file/677/web_hero_banner2.png',
-  'https://my.tcb-life.com.tw/file/731/史博館 綻放 2880x990.JPG',
-  'https://my.tcb-life.com.tw/file/680/電銷-馨健康依靠 0911合庫BN_2880 x 990.jpg',
-  'https://my.tcb-life.com.tw/file/681/公關-安心守護計畫20250827_RESIZE-2880X990.JPEG',
-])
 
-const swiper_index = ref(0)
-const swiper = ref(null)
-const raction = ref(false)
 const laction = ref(false)
 
 let leaveTimer = null
-let autoPlayTimer = null
+
 let observer = null
-
-const nextSlide = () => {
-  raction.value = true
-
-  setTimeout(() => {
-    swiper_index.value = (swiper_index.value + 1) % swiper_slide_list.value.length
-
-    raction.value = false
-  }, 500)
-}
 
 onMounted(() => {
   try {
-    autoPlayTimer = setInterval(() => {
-      nextSlide()
-    }, 3000)
-
     observer = new IntersectionObserver(
       ([entry]) => {
         isNavSticky.value = !entry.isIntersecting
@@ -137,53 +116,14 @@ const handleMouseLeave = () => {
   </nav>
 
   <main>
-    <section>
-      <swiper-slide ref="swiper">
-        <img
-          :src="
-            swiper_slide_list[
-              (swiper_index - 1 + swiper_slide_list.length) % swiper_slide_list.length
-            ]
-          "
-          width="75%"
-          draggable="false"
-          class="left"
-        />
-        <img :src="swiper_slide_list[swiper_index]" width="75%" :draggable="false" />
-
-        <img
-          :src="swiper_slide_list[(swiper_index + 1) % swiper_slide_list.length]"
-          width="75%"
-          draggable="false"
-          class="right"
-          :class="{ action: raction }"
-        />
-      </swiper-slide>
-    </section>
+    <section><SwiperSlide /></section>
 
     <section>
       <CommonFunctionContainer />
+      <SearchInputContainer />
     </section>
-
-    <section>
-      <interactive-situation-header>
-        <h1>看看可以怎麼保</h1>
-        <h2>動手點點小情境互動</h2>
-      </interactive-situation-header>
-    </section>
-    <br /><br /><br />
-    <section>
-      <img id="fdss" src="https://my.tcb-life.com.tw/assets/storys-BWNGk7Ph.png" />
-    </section>
-    <section>
-      <product-area-container>
-        <button v-for="product in product_items" :key="product.id">
-          <img :src="product.img" alt="" />
-          <h2>{{ product.name }}</h2>
-          <p>{{ product.desc }}</p>
-        </button>
-      </product-area-container>
-    </section>
+    <InteractiveSituation />
+    <section><ProductAreaContainer /></section>
     <section>
       <popular-events-header>
         <h1>熱門活動</h1>
@@ -328,86 +268,8 @@ nav {
   }
 }
 
-swiper-slide {
-  margin-top: 25px;
-  display: block;
-  position: relative;
-  border-radius: 5vw;
-  cursor: pointer;
-  box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);
-  overflow: hidden;
-  width: 80%;
-  left: 10%;
-img {
-  position: absolute; /* 全部絕對定位重疊 */
-  width: 100%;
-  transition: all 0.5s ease-in-out; /* 統一在這裡寫過渡 */
 
-  /* 中間圖：預設在中間 */
-  transform: translateX(0);
-  opacity: 1;
 
-  /* 當按下 next 時，中間圖向左滑出並變透明 */
-  &.center-active {
-    transform: translateX(-100%);
-    opacity: 0;
-  }
-
-  /* 右邊圖：預設在右邊隱形 */
-  &.right {
-    transform: translateX(100%);
-    opacity: 0;
-
-    /* 當按下 next 時，右邊圖向左滑入中間 */
-    &.action {
-      transform: translateX(0);
-      opacity: 1;
-    }
-  }
-}
-  @media screen and (max-width: 840px) {
-    width: 90%;
-    left: 0;
-    transform: translateX(5%);
-  }
-}
-
-interactive-situation-header {
-  margin-top: 50px;
-  position: absolute;
-  left: 30%;
-  transform: translateX(-50%);
-  h1 {
-    color: #008765;
-    display: inline;
-    font-size: 1.5vw;
-  }
-  h2 {
-    color: #008765;
-    display: inline;
-    font-size: 0.7vw;
-    position: relative;
-    top: -0.5vw;
-  }
-  @media screen and (max-width: 840px) {
-    left: 20%;
-    h1 {
-      font-size: 2.5vw;
-    }
-    h2 {
-      font-size: 1.5vw;
-    }
-  }
-}
-#fdss {
-  width: 80%;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  @media screen and (max-width: 840px) {
-    width: 100%;
-  }
-}
 
 popular-events-header {
   position: relative;
