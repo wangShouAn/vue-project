@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue' // 不需要 onMounted 了
 
 const swiper_slide_list = ref([
   {
@@ -30,7 +30,6 @@ const swiper_slide_list = ref([
 
 const swiper_index = ref(0)
 const direction = ref('slide-right') // 核心：控制動畫方向
-let autoPlayTimer = null
 
 // 統一的切換邏輯
 const changeSlide = (newIndex, customDirection = null) => {
@@ -53,18 +52,18 @@ const prevSlide = () => {
   changeSlide(prevIndex, 'slide-left') // 點擊左箭頭固定向左
 }
 
-onMounted(() => {
-  autoPlayTimer = setInterval(nextSlide, 5500)
-})
+// 移除 setInterval，因為動畫現在由 CSS 的 @animationend 驅動
 </script>
 
 <template>
   <main>
     <section>
       <div class="swiper-slide">
+        <!-- 箭頭按鈕 -->
         <button class="arrow-btn left" @click="prevSlide">❮</button>
         <button class="arrow-btn right" @click="nextSlide">❯</button>
 
+        <!-- 圖片切換區 -->
         <Transition :name="direction">
           <div :key="swiper_index" class="slide-item">
             <a :href="swiper_slide_list[swiper_index].url" target="_blank" rel="noopener noreferrer">
@@ -73,13 +72,23 @@ onMounted(() => {
           </div>
         </Transition>
 
-        <div class="progress-container">
-          <div :key="swiper_index" class="progress-bar"></div>
-        </div>
-
+        <!-- 分頁點點 (包含進度條) -->
         <div class="pagination">
-          <span v-for="(item, index) in swiper_slide_list" :key="index" class="dot"
-            :class="{ active: swiper_index === index }" @click="changeSlide(index)"></span>
+          <span 
+            v-for="(item, index) in swiper_slide_list" 
+            :key="index" 
+            class="dot"
+            :class="{ active: swiper_index === index }" 
+            @click="changeSlide(index)"
+          >
+            <!-- ✨ 關鍵修改：監聽 animationend 事件 ✨ -->
+            <!-- 當進度條動畫跑完時，自動呼叫 nextSlide -->
+            <div 
+              v-if="swiper_index === index" 
+              class="inner-bar"
+              @animationend="nextSlide"
+            ></div>
+          </span>
         </div>
       </div>
     </section>
@@ -144,11 +153,11 @@ section {
   background: none;
   border: none;
   color: white;
-  font-size: 40px;
+  font-size: 25px;
   font-weight: bold;
   cursor: pointer;
   z-index: 20;
-  padding: 0 20px;
+  padding: 0 5px;
   transition: transform 0.2s ease, opacity 0.3s;
   opacity: 0.7;
   text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
@@ -158,94 +167,73 @@ section {
     transform: translateY(-50%) scale(1.2);
   }
 
-  &.left {
-    left: 10px;
-  }
-
-  &.right {
-    right: 10px;
-  }
+  &.left { left: 10px; }
+  &.right { right: 10px; }
 }
 
+/* 點點與進度條樣式 */
 .pagination {
   position: absolute;
-  bottom: 20px;
+  bottom: 10px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
-  gap: 10px;
+  gap: 12px;
   z-index: 10;
 
   .dot {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 5px;
     background-color: rgba(255, 255, 255, 0.5);
     border-radius: 50%;
     cursor: pointer;
-    transition: all 0.3s ease;
+    position: relative; /* 為 inner-bar 定位 */
+    overflow: hidden;   /* 裁切進度條 */
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.5, 1); /* 讓變長的效果更有彈性 */
 
-    &.hover {
-      background-color: #77db38;
+    /* Active 狀態：變長 */
+    &.active {
+      width: 200px;
+      border-radius: 6px;
+      background-color: rgba(255, 255, 255, 0.3);
     }
 
-    &.active {
-      width: 30px;
-      border-radius: 6px;
-      background-color: #77db38;
+    &:hover:not(.active) {
+      background-color: rgb(255, 255, 255);
+    }
+
+    /* 內部的綠色進度條 */
+    .inner-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background-color: #77db38; /* 主題綠色 */
+      width: 0;
+      /* 時間控制在這裡：5.5s */
+      animation: dotProgress 5.5s linear forwards;
     }
   }
 }
 
-/* 由右往左滑 */
-.slide-right-enter-from {
-  transform: translateX(100%);
+@keyframes dotProgress {
+  from { width: 0%; }
+  to { width: 100%; }
 }
 
-.slide-right-leave-to {
-  transform: translateX(-100%);
-}
+/* 動畫邏輯：由右往左滑 (預設) */
+.slide-right-enter-from { transform: translateX(100%); }
+.slide-right-leave-to { transform: translateX(-100%); }
 
-/* 由左往右滑 */
-.slide-left-enter-from {
-  transform: translateX(-100%);
-}
+/* 動畫邏輯：由左往右滑 (後退) */
+.slide-left-enter-from { transform: translateX(-100%); }
+.slide-left-leave-to { transform: translateX(100%); }
 
-.slide-left-leave-to {
-  transform: translateX(100%);
-}
-
+/* 動畫過程設定 */
 .slide-right-enter-active,
 .slide-right-leave-active,
 .slide-left-enter-active,
 .slide-left-leave-active {
   transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.progress-container {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  /* 進度條高度 */
-  background: rgba(255, 255, 255, 0.2);
-  z-index: 15;
-}
-
-.progress-bar {
-  height: 100%;
-  background: #ffffff;
-  width: 0;
-  animation: progressAnimation 5.5s linear forwards;
-}
-
-@keyframes progressAnimation {
-  from {
-    width: 0%;
-  }
-
-  to {
-    width: 100%;
-  }
 }
 </style>
