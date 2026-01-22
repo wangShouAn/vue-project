@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue' // 不需要 onMounted 了
+import { ref } from 'vue'
 
 const swiper_slide_list = ref([
   {
@@ -52,8 +52,6 @@ const prevSlide = () => {
     (swiper_index.value - 1 + swiper_slide_list.value.length) % swiper_slide_list.value.length
   changeSlide(prevIndex, 'slide-left') // 點擊左箭頭固定向左
 }
-
-// 移除 setInterval，因為動畫現在由 CSS 的 @animationend 驅動
 </script>
 
 <template>
@@ -67,24 +65,15 @@ const prevSlide = () => {
         <!-- 圖片切換區 -->
         <Transition :name="direction">
           <div :key="swiper_index" class="slide-item">
-            <a
-              :href="swiper_slide_list[swiper_index].url"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a :href="swiper_slide_list[swiper_index].url" target="_blank" rel="noopener noreferrer">
               <img :src="swiper_slide_list[swiper_index].img" draggable="false" />
             </a>
           </div>
         </Transition>
 
         <div class="pagination">
-          <span
-            v-for="(item, index) in swiper_slide_list"
-            :key="index"
-            class="dot"
-            :class="{ active: swiper_index === index }"
-            @click="changeSlide(index)"
-          >
+          <span v-for="(item, index) in swiper_slide_list" :key="index" class="dot"
+            :class="{ active: swiper_index === index }" @click="changeSlide(index)">
             <div v-if="swiper_index === index" class="inner-bar" @animationend="nextSlide"></div>
           </span>
         </div>
