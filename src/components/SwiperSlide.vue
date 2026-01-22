@@ -25,7 +25,7 @@ const swiper_slide_list = ref([
   },
   {
     img: 'https://live.staticflickr.com/65535/48636142963_4472ed6c8f.jpg',
-    img2: 'https://live.staticflickr.com/65535/48636142962_4472ed6c8f.jpg',
+    img2: 'https://live.staticflickr.com/65535/48636142963_4472ed6c8f.jpg',
     url: 'https://www.youtube.com/?authuser=0',
   },
   {
