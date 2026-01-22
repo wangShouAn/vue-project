@@ -1,5 +1,6 @@
 <script setup>
 import TopButton from './components/TopButton.vue'
+import FloatingContainer from './components/FloatingContainer.vue'
 import NavArea from './components/NavArea.vue'
 import SwiperSlide from './components/SwiperSlide.vue'
 import CommonFunctionContainer from './components/CommonFunctionContainer.vue'
@@ -14,6 +15,7 @@ import Footer from './components/Footer.vue'
 
 <template>
   <TopButton />
+  <FloatingContainer />
   <NavArea />
   <main>
     <SwiperSlide />
