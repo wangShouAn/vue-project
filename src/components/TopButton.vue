@@ -44,6 +44,10 @@ button {
     background-color: #008e6b;
     cursor: pointer;
   }
+  @media screen and (max-width: 840px) {
+    font-size: 4vw;
+    padding: 1vw;
+  }
 }
 .v-enter-active,
 .v-leave-active {

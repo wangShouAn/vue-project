@@ -141,6 +141,17 @@ button {
     background-color: #006f4a;
     transform: translateX(-5.2vw);
   }
+  @media screen and (max-width: 840px) {
+    font-size: 2vw;
+    padding: 0.5vw 1vw;
+    line-height: 2.5vw;
+    width: 4vw;
+    height: 12vw;
+    &.showMenu {
+      background-color: #006f4a;
+      transform: translateX(-11vw);
+    }
+  }
 }
 
 menu {
@@ -182,6 +193,32 @@ menu {
           margin: 0.2vw 0 0 0;
           font-size: 0.7vw;
           white-space: nowrap;
+        }
+      }
+    }
+  }
+  @media screen and (max-width: 840px) {
+    width: 10vw;
+    padding: 0.5vw;
+
+    ul {
+      list-style: none;
+
+      li {
+        padding: 0.5vw 0;
+        border-bottom: 0.1vw solid #eee;
+        &:last-child {
+          border-bottom: none;
+        }
+        a {
+          img {
+            width: 5vw;
+            height: 5vw;
+          }
+          p {
+            margin: 0.2vw 0 0 0;
+            font-size: 2vw;
+          }
         }
       }
     }
