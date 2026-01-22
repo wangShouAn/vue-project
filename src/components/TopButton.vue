@@ -28,6 +28,7 @@ onUnmounted(() => {
 
 <style scoped lang="scss">
 button {
+  z-index: 99999;
   border: none;
   position: fixed;
   padding: 0.5vw;
@@ -42,6 +43,10 @@ button {
   &:hover {
     background-color: #008e6b;
     cursor: pointer;
+  }
+  @media screen and (max-width: 840px) {
+    font-size: 4vw;
+    padding: 1vw;
   }
 }
 .v-enter-active,
