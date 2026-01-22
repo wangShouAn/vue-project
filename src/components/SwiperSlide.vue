@@ -101,7 +101,6 @@ section {
   padding: 20px 0;
 }
 
-/* 確保 Transition 的容器撐滿 */
 .slide-item {
   position: absolute;
   top: 0;
