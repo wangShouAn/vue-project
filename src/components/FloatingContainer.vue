@@ -1,15 +1,68 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
+
 const showMenu = ref(false)
+const menuPosition = reactive({ top: '50%' })
+
+const isDragging = ref(false)
+const startY = ref(0)
+const startTop = ref(0)
 
 function toggleMenu() {
+  if (isDragging.value) return
   showMenu.value = !showMenu.value
+}
+
+const handleMouseDown = (e) => {
+  isDragging.value = false
+  startY.value = e.clientY
+
+  const rect = e.target.getBoundingClientRect()
+  startTop.value = rect.top
+
+  const onMouseMove = (moveEvent) => {
+    isDragging.value = true
+    const deltaY = moveEvent.clientY - startY.value
+    const newTop = startTop.value + deltaY
+
+    const vh = window.innerHeight
+    const safeTop = Math.max(0, Math.min(newTop, vh - 100))
+
+    menuPosition.top = `${safeTop}px`
+  }
+
+  const onMouseUp = () => {
+    document.removeEventListener('mousemove', onMouseMove)
+    document.removeEventListener('mouseup', onMouseUp)
+
+    setTimeout(() => {}, 50)
+  }
+
+  document.addEventListener('mousemove', onMouseMove)
+  document.addEventListener('mouseup', onMouseUp)
+}
+
+const handleClick = (e) => {
+  if (isDragging.value) {
+    isDragging.value = false
+    e.preventDefault()
+  } else {
+    toggleMenu()
+  }
 }
 </script>
 
 <template>
-  <button @click="toggleMenu()" :class="{ showMenu: showMenu }">快捷選單</button>
-  <menu v-if="showMenu">
+  <button
+    @mousedown="handleMouseDown"
+    @click="handleClick"
+    :class="{ showMenu: showMenu }"
+    :style="{ top: menuPosition.top }"
+  >
+    快捷選單
+  </button>
+
+  <menu v-if="showMenu" :style="{ top: menuPosition.top }">
     <ul>
       <li>
         <a href="#">
@@ -57,9 +110,14 @@ function toggleMenu() {
 
 <style lang="scss" scoped>
 button {
+  cursor: grab;
+  &:active {
+    cursor: grabbing;
+  }
+
   position: fixed;
   right: 0;
-  top: 50%;
+
   z-index: 101;
   background-color: #008e6bb9;
   color: #fff;
@@ -72,7 +130,9 @@ button {
   line-height: 1vw;
   width: 1.5vw;
   height: 6vw;
-  transition: transform 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    background-color 0.3s;
 
   &:hover {
     background-color: #008e6b;
@@ -86,16 +146,17 @@ button {
 menu {
   position: fixed;
   right: 0;
-  top: 50%;
+
   z-index: 100;
   background-color: #ffffff;
   border: 0.1vw solid #008e6b;
-  border-top-left-radius: 0;
   border-bottom-left-radius: 0.5vw;
   width: 4.1vw;
   padding: 0.5vw;
   box-shadow: 0 0 0.5vw #00000050;
   margin: 0;
+
+  transform: translateY(0);
 
   ul {
     list-style: none;
@@ -113,11 +174,9 @@ menu {
         flex-direction: column;
         align-items: center;
         text-decoration: none;
-
         img {
           width: 1.5vw;
           height: 1.5vw;
-          vertical-align: middle;
         }
         p {
           margin: 0.2vw 0 0 0;
