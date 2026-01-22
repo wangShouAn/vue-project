@@ -1,168 +1,219 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-const isNavSticky = ref(false)
-const Sticky = ref(null)
-const menuSeletor = ref(0)
 
-const laction = ref(false)
+const isNavSticky = ref(false)
+const stickyRef = ref(null)
+const menuSelector = ref(0)
 
 let leaveTimer = null
-
 let observer = null
 
-onMounted(() => {
-  try {
-    observer = new IntersectionObserver(
-      ([entry]) => {
-        isNavSticky.value = !entry.isIntersecting
-      },
-      { threshold: 0 },
-    )
+const handleMouseEnter = (index) => {
+  if (index === 6) return
+  if (leaveTimer) clearTimeout(leaveTimer)
+  menuSelector.value = index
+}
 
-    if (Sticky.value) {
-      observer.observe(Sticky.value)
-    } else {
-      console.warn('Sticky element not found')
-    }
-  } catch (err) {
-    console.error('onMounted 發生錯誤:', err)
-  }
+const handleMouseLeave = () => {
+  leaveTimer = setTimeout(() => {
+    menuSelector.value = 0
+  }, 150)
+}
+
+const toggleSearch = () => {
+  menuSelector.value = menuSelector.value === 6 ? 0 : 6
+}
+
+onMounted(() => {
+  observer = new IntersectionObserver(
+    ([entry]) => {
+      isNavSticky.value = !entry.isIntersecting
+    },
+    { threshold: 0 },
+  )
+  if (stickyRef.value) observer.observe(stickyRef.value)
 })
 
 onUnmounted(() => {
   if (observer) observer.disconnect()
   if (leaveTimer) clearTimeout(leaveTimer)
-  if (autoPlayTimer) clearInterval(autoPlayTimer)
 })
-
-const handleMouseEnter = (index) => {
-  if (leaveTimer) clearTimeout(leaveTimer)
-  menuSeletor.value = index
-}
-
-const handleMouseLeave = () => {
-  leaveTimer = setTimeout(() => {
-    menuSeletor.value = 0
-  }, 150)
-}
 </script>
+
 <template>
-  <div ref="Sticky" class="Sticky"></div>
+  <div ref="stickyRef" class="sticky-trigger"></div>
   <nav :class="{ 'is-sticky': isNavSticky }">
-    <img
-      src="https://my.tcb-life.com.tw/assets/%E5%90%88%E5%BA%AB%E4%BA%BA%E5%A3%BDLOGO-hrqQj5ac.svg"
-    />
+    <div class="nav-logo">
+      <img
+        src="https://my.tcb-life.com.tw/assets/%E5%90%88%E5%BA%AB%E4%BA%BA%E5%A3%BDLOGO-hrqQj5ac.svg"
+        alt="LOGO"
+      />
+    </div>
 
-    <item>
-      <button @mouseenter="handleMouseEnter(1)" @mouseleave="handleMouseLeave">保戶服務</button>
-      <menu
-        @mouseenter="handleMouseEnter(1)"
-        @mouseleave="handleMouseLeave"
-        v-if="menuSeletor === 1"
-      ></menu>
-    </item>
+    <div class="nav-links">
+      <div class="nav-item" @mouseenter="handleMouseEnter(1)" @mouseleave="handleMouseLeave">
+        <button class="nav-btn">保戶服務</button>
+        <Transition name="fade">
+          <div class="dropdown-menu" v-if="menuSelector === 1"></div>
+        </Transition>
+      </div>
 
-    <button>安心守護</button>
+      <div class="nav-item">
+        <button class="nav-btn">安心守護</button>
+      </div>
 
-    <item>
-      <button @mouseenter="handleMouseEnter(2)" @mouseleave="handleMouseLeave">所有商品</button>
-      <menu
-        @mouseenter="handleMouseEnter(2)"
-        @mouseleave="handleMouseLeave"
-        v-if="menuSeletor === 2"
-      ></menu>
-    </item>
+      <div class="nav-item" @mouseenter="handleMouseEnter(2)" @mouseleave="handleMouseLeave">
+        <button class="nav-btn">所有商品</button>
+        <Transition name="fade">
+          <div class="dropdown-menu" v-if="menuSelector === 2"></div>
+        </Transition>
+      </div>
 
-    <item>
-      <button @mouseenter="handleMouseEnter(3)" @mouseleave="handleMouseLeave">公平待客</button>
-      <menu
-        @mouseenter="handleMouseEnter(3)"
-        @mouseleave="handleMouseLeave"
-        v-if="menuSeletor === 3"
-      ></menu>
-    </item>
+      <div class="nav-item" @mouseenter="handleMouseEnter(3)" @mouseleave="handleMouseLeave">
+        <button class="nav-btn">公平待客</button>
+        <Transition name="fade">
+          <div class="dropdown-menu" v-if="menuSelector === 3"></div>
+        </Transition>
+      </div>
 
-    <item>
-      <button @mouseenter="handleMouseEnter(4)" @mouseleave="handleMouseLeave">保險知識庫</button>
-      <menu
-        @mouseenter="handleMouseEnter(4)"
-        @mouseleave="handleMouseLeave"
-        v-if="menuSeletor === 4"
-      ></menu>
-    </item>
+      <div class="nav-item" @mouseenter="handleMouseEnter(4)" @mouseleave="handleMouseLeave">
+        <button class="nav-btn">保險知識庫</button>
+        <Transition name="fade">
+          <div class="dropdown-menu" v-if="menuSelector === 4"></div>
+        </Transition>
+      </div>
 
-    <item>
-      <button @mouseenter="handleMouseEnter(5)" @mouseleave="handleMouseLeave">關於我們</button>
-      <menu
-        @mouseenter="handleMouseEnter(5)"
-        @mouseleave="handleMouseLeave"
-        v-if="menuSeletor === 5"
-      ></menu>
-    </item>
+      <div class="nav-item" @mouseenter="handleMouseEnter(5)" @mouseleave="handleMouseLeave">
+        <button class="nav-btn">關於我們</button>
+        <Transition name="fade">
+          <div class="dropdown-menu" v-if="menuSelector === 5"></div>
+        </Transition>
+      </div>
 
-    <search @mouseenter="handleMouseEnter(6)" @mouseleave="handleMouseLeave">🔍</search>
-    <menu
-      @mouseenter="handleMouseEnter(6)"
-      @mouseleave="handleMouseLeave"
-      v-if="menuSeletor === 6"
-    ></menu>
+      <div class="nav-item search-item">
+        <button class="nav-btn search-btn" @click="toggleSearch">🔍</button>
+        <Transition name="fade">
+          <div class="dropdown-menu search-menu" v-if="menuSelector === 6"></div>
+        </Transition>
+      </div>
+    </div>
   </nav>
+  <br />
 </template>
 
 <style lang="scss" scoped>
+.sticky-trigger {
+  height: 1px;
+  width: 100%;
+}
+
 nav {
-  font-size: 1vw;
-  transition:
-    background-color 0.3s ease-in-out,
-    box-shadow 0.3s ease-in-out;
   position: sticky;
-  top: 0px;
+  top: 15px;
   z-index: 100;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 2.5vw;
-  padding: 0.5vw 1vw;
-  width: 80%;
-  scale: 0.9;
+  width: 90%;
+  max-width: 1440px;
+  height: 60px;
   margin: 0 auto;
-  border-radius: 100px;
+  display: flex;
+  align-items: center;
+  padding: 0 30px;
   background-color: #ffffff00;
+  border-radius: 100px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
   &.is-sticky {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: #fff;
+    width: 95%;
+    background-color: rgba(255, 255, 255, 1);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   }
 
-  img {
-    height: 2vw;
+  .nav-logo {
+    margin-right: 20px;
+    img {
+      height: 35px;
+    }
   }
 
-  button {
+  .nav-links {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-item {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex: 1;
+  }
+
+  .nav-btn {
     all: unset;
-    padding: 0.5vw 1vw;
-    margin: 0;
-    border-radius: 1vw;
+    font-size: 16px;
+    color: #333;
+    padding: 8px 16px;
+    border-radius: 50px;
     cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.2s;
 
-    &:hover {
+    &:hover,
+    &.active {
       background-color: #05bf90;
       color: #fff;
     }
   }
 
-  search {
-    cursor: pointer;
+  .dropdown-menu {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60vw;
+    height: 300px;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+    z-index: 110;
   }
 
-  menu {
-    position: absolute;
-    height: 200px;
-    width: 200px;
-    background-color: #fff;
-    top: 75%;
-    transform: translate(-35%, 0%);
-    border-radius: 10px;
+  .search-menu {
+    left: auto;
+    right: 0;
+    transform: translateX(0);
+    width: 350px;
+  }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition:
+    opacity 0.25s,
+    transform 0.25s;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translate(-50%, 15px);
+}
+
+.search-item .fade-enter-from,
+.search-item .fade-leave-to {
+  transform: translateY(15px);
+}
+
+@media (max-width: 840px) {
+  nav {
+    .nav-btn {
+      font-size: 14px;
+      padding: 6px 10px;
+    }
+    .nav-logo img {
+      height: 28px;
+    }
   }
 }
 </style>
