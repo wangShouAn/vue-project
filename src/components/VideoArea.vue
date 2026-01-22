@@ -340,7 +340,7 @@ video-action {
       width: 5vw;
       height: 5vw;
       overflow: hidden;
-      border: #fff solid 0.2vw;
+      border: #fff solid 0.5vw;
       margin-right: 1vw;
       padding: 0;
       background: #eee;
@@ -361,7 +361,7 @@ video-action {
 
       &:hover,
       &.active {
-        border: #22bc95 solid 0.2vw;
+        border: #22bc95 solid 0.5vw;
         transform: scale(1.05);
       }
     }
