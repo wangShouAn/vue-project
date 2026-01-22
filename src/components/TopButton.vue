@@ -28,14 +28,16 @@ onUnmounted(() => {
 
 <style scoped lang="scss">
 button {
+  border: none;
   position: fixed;
+  padding: 0.5vw;
   right: 5vw;
   bottom: 5vw;
   background-color: #008e6bb9;
   color: #fff;
   border-radius: 100%;
 
-  font-size: 4vw;
+  font-size: 2vw;
   text-align: center;
   &:hover {
     background-color: #008e6b;
