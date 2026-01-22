@@ -1,31 +1,53 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+
+const isMobile = ref(false)
+
+const updateWidth = () => {
+  isMobile.value = window.innerWidth <= 840
+}
+
+onMounted(() => {
+  updateWidth()
+
+  window.addEventListener('resize', updateWidth)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('resize', updateWidth)
+})
 
 const swiper_slide_list = ref([
   {
     img: 'https://my.tcb-life.com.tw/file/3/web_hero_banner.jpg',
+    img2: 'https://my.tcb-life.com.tw/file/3/mob_hero_banner.jpg',
     url: 'https://my.tcb-life.com.tw/charity-coffee',
   },
   {
     img: 'https://live.staticflickr.com/65535/48636142963_4472ed6c8f.jpg',
+    img2: 'https://live.staticflickr.com/65535/48636142962_4472ed6c8f.jpg',
     url: 'https://www.youtube.com/?authuser=0',
   },
   {
     img: 'https://my.tcb-life.com.tw/file/677/web_hero_banner2.png',
+    img2: 'https://my.tcb-life.com.tw/file/677/mob_hero_banner2.png',
     url: 'https://my.tcb-life.com.tw/family-care',
   },
   {
     img: 'https://my.tcb-life.com.tw/file/731/史博館 綻放 2880x990.JPG',
+    img2: 'https://my.tcb-life.com.tw/file/731/合庫resize綻放banner_750X450_上下各留24PX、左留92PX、右留68PX.jpg',
     url: 'https://www.tcb-life-online.com.tw/ebiz/member/preregistration?&utm_source=tcblifeBN&utm_medium=BN&utm_campaign=Flower',
   },
   {
     img: 'https://my.tcb-life.com.tw/file/680/電銷-馨健康依靠 0911合庫BN_2880 x 990.jpg',
+    img2: 'https://my.tcb-life.com.tw/file/680/電銷-馨健康依靠 0911合庫BN_750 x 450.jpg',
     url: 'https://mhu.tcb-life.com.tw/landingpage/20180718002/landingpage.aspx?p=eoVIxvGLTDROgjLjpBGUpwGGulod1pzinHG3kyp2Aqs%3d&k=bwWXa3hq4BFeFdDTa1ehVWFOo%2fahlqjqLVRKU3Q3j8WeA1h6yubB%2bKLH26t1o0SgijEadmbtnIiIJCEAnkNCGKgluFyD6qTxaWqZVst5Vox%2fUHp3%2bwDJ54ux7wT2kZj5&si=druanfqdyqgpz24xgxfecbtn',
   },
   {
     img: 'https://my.tcb-life.com.tw/file/681/公關-安心守護計畫20250827_RESIZE-2880X990.JPEG',
+    img2: 'https://my.tcb-life.com.tw/file/681/公關-安心守護計畫 20250827_RESIZE-750X450.JPEG',
     url: 'https://my.tcb-life.com.tw/family-care',
-  }
+  },
 ])
 
 const swiper_index = ref(0)
@@ -52,6 +74,11 @@ const prevSlide = () => {
     (swiper_index.value - 1 + swiper_slide_list.value.length) % swiper_slide_list.value.length
   changeSlide(prevIndex, 'slide-left') // 點擊左箭頭固定向左
 }
+
+const currentImageUrl = computed(() => {
+  const item = swiper_slide_list.value[swiper_index.value]
+  return isMobile.value ? item.img2 : item.img
+})
 </script>
 
 <template>
@@ -65,15 +92,24 @@ const prevSlide = () => {
         <!-- 圖片切換區 -->
         <Transition :name="direction">
           <div :key="swiper_index" class="slide-item">
-            <a :href="swiper_slide_list[swiper_index].url" target="_blank" rel="noopener noreferrer">
-              <img :src="swiper_slide_list[swiper_index].img" draggable="false" />
+            <a
+              :href="swiper_slide_list[swiper_index].url"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img :src="currentImageUrl" draggable="false" />
             </a>
           </div>
         </Transition>
 
         <div class="pagination">
-          <span v-for="(item, index) in swiper_slide_list" :key="index" class="dot"
-            :class="{ active: swiper_index === index }" @click="changeSlide(index)">
+          <span
+            v-for="(item, index) in swiper_slide_list"
+            :key="index"
+            class="dot"
+            :class="{ active: swiper_index === index }"
+            @click="changeSlide(index)"
+          >
             <div v-if="swiper_index === index" class="inner-bar" @animationend="nextSlide"></div>
           </span>
         </div>
@@ -242,5 +278,13 @@ section {
 .slide-left-enter-active,
 .slide-left-leave-active {
   transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media screen and (max-width: 840px) {
+  .swiper-slide {
+    width: 100%;
+    border-radius: 0;
+    height: 60vw;
+  }
 }
 </style>
