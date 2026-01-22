@@ -1,12 +1,7 @@
 <template>
   <video-area-block>
-    <iframe
-      width="724"
-      height="395"
-      src="https://www.youtube.com/embed/fYnGJwbBBIQ"
-      title="🎥 合庫人壽校園巡講精華合輯"
-      frameborder="0"
-      allow="
+    <iframe width="724" height="395" src="https://www.youtube.com/embed/fYnGJwbBBIQ" title="🎥 合庫人壽校園巡講精華合輯"
+      frameborder="0" allow="
         accelerometer;
         autoplay;
         clipboard-write;
@@ -14,10 +9,7 @@
         gyroscope;
         picture-in-picture;
         web-share;
-      "
-      referrerpolicy="strict-origin-when-cross-origin"
-      allowfullscreen
-    ></iframe>
+      " referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
     <video-content>
       <h1>影音專區</h1>
@@ -45,7 +37,7 @@
       </button>
     </video-pagination>
     <video-action-more-btn-container>
-      <button>看更多 →</button>
+      <button class="lookMore">看更多<span class="arrow-icon">→</span></button>
     </video-action-more-btn-container>
   </video-action>
 </template>
@@ -63,6 +55,21 @@ video-area-block {
     width: 31vw;
     height: 17vw;
     border-radius: 1vw;
+  }
+
+  .lookMore:hover {
+    background-color: #12c397;
+
+    .arrow-icon {
+      display: inline-block;
+      transition: transform 0.3s ease;
+      transform: rotate(-45deg); // 將右箭頭旋轉成右上
+      margin-left: 4px;
+    }
+
+    &:hover .arrow-icon {
+      transform: rotate(-45deg) translate(2px, -2px); // 滑鼠移入時往右上跳動
+    }
   }
 
   video-content {
@@ -223,6 +230,15 @@ video-action {
       width: 6vw;
       height: 2vw;
       transition: all 0.3s ease-in-out;
+
+      &:hover {
+        background-color: #12c397;
+
+        span.arrow {
+          display: inline-block;
+          transform: rotate(-45deg);
+        }
+      }
     }
 
     @media screen and (max-width: 840px) {
