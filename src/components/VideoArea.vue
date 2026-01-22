@@ -1,27 +1,32 @@
 <template>
   <div class="video-section-container">
     <!-- 影片播放區塊 -->
-    <video-area-block 
-      @touchstart="handleTouchStart" 
-      @touchend="handleTouchEnd"
-    >
+    <video-area-block @touchstart="handleTouchStart" @touchend="handleTouchEnd">
       <div class="video-frame-wrapper">
         <!-- 影片過渡動畫 -->
         <transition :name="slideDirection">
           <div :key="activeIndex" class="video-slide">
             <!-- 底層預覽圖：防止 iframe 加載過程出現黑屏 -->
-            <img 
-              :src="`https://img.youtube.com/vi/${videoList[activeIndex].id}/hqdefault.jpg`" 
+            <img
+              :src="`https://img.youtube.com/vi/${videoList[activeIndex].id}/hqdefault.jpg`"
               class="video-placeholder"
             />
-            
+
             <!-- 上層影片：加載完成後才透過 opacity 顯示 -->
-            <iframe 
-              id="main-video" 
-              :src="currentVideoUrl" 
+            <iframe
+              id="main-video"
+              :src="currentVideoUrl"
               title="主影片"
-              frameborder="0" 
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              frameborder="0"
+              allow="
+                accelerometer;
+                autoplay;
+                clipboard-write;
+                encrypted-media;
+                gyroscope;
+                picture-in-picture;
+                web-share;
+              "
               allowfullscreen
               :class="{ 'is-loaded': iframeLoaded }"
               @load="handleIframeLoad"
@@ -48,8 +53,8 @@
     <!-- 底部操作區 -->
     <video-action>
       <video-pagination>
-        <button 
-          v-for="(video, index) in videoList" 
+        <button
+          v-for="(video, index) in videoList"
           :key="video.id"
           :class="{ active: activeIndex === index }"
           @click="handleButtonClick(index)"
@@ -66,82 +71,84 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed } from 'vue'
 
 const videoList = [
   {
     id: 'fYnGJwbBBIQ',
     title: '合庫人壽校園巡講精華合輯',
-    desc: '風險管理不是害怕未來，而是讓選擇更多、夢想走得更遠。 邀請你一起回顧這段溫慢的校園旅程。'
+    desc: '風險管理不是害怕未來，而是讓選擇更多、夢想走得更遠。 邀請你一起回顧這段溫慢的校園旅程。',
   },
   {
     id: 'bn0xi52L1QU',
     title: '如何規劃人生第一張保單？',
-    desc: '專家告訴你，年輕人投保的三大重點，讓你的未來更有保障，不用擔心意外。'
+    desc: '專家告訴你，年輕人投保的三大重點，讓你的未來更有保障，不用擔心意外。',
   },
   {
     id: 'kH3Wyr3lw-Q',
     title: '投資型保單怎麼選？',
-    desc: '深入淺出解析投資型保單的運作原理，讓你理財更安心，資產配置更靈活。'
+    desc: '深入淺出解析投資型保單的運作原理，讓你理財更安心，資產配置更靈活。',
   },
   {
     id: 'lv6W6-24SRw',
     title: '退休生活提早佈局',
-    desc: '不要等到老了才開始，現在就為你的樂活退休做準備，打造無憂的老後生活。'
-  }
-];
+    desc: '不要等到老了才開始，現在就為你的樂活退休做準備，打造無憂的老後生活。',
+  },
+]
 
-const activeIndex = ref(0);
-const isAnimating = ref(false);
-const iframeLoaded = ref(false); // 追蹤目前 iframe 是否載入完成
-const slideDirection = ref('slide-left');
+const activeIndex = ref(0)
+const isAnimating = ref(false)
+const iframeLoaded = ref(false) // 追蹤目前 iframe 是否載入完成
+const slideDirection = ref('slide-left')
 
-const currentVideoUrl = computed(() => `https://www.youtube.com/embed/${videoList[activeIndex.value].id}?autoplay=0&rel=0`);
-const currentTitle = computed(() => videoList[activeIndex.value].title);
-const currentDesc = computed(() => videoList[activeIndex.value].desc);
+const currentVideoUrl = computed(
+  () => `https://www.youtube.com/embed/${videoList[activeIndex.value].id}?autoplay=0&rel=0`,
+)
+const currentTitle = computed(() => videoList[activeIndex.value].title)
+const currentDesc = computed(() => videoList[activeIndex.value].desc)
 
-let touchStartX = 0;
-let touchEndX = 0;
+let touchStartX = 0
+let touchEndX = 0
 
 const handleTouchStart = (e) => {
-  touchStartX = e.changedTouches[0].screenX;
-};
+  touchStartX = e.changedTouches[0].screenX
+}
 
 const handleTouchEnd = (e) => {
-  touchEndX = e.changedTouches[0].screenX;
-  handleSwipe();
-};
+  touchEndX = e.changedTouches[0].screenX
+  handleSwipe()
+}
 
 const handleSwipe = () => {
-  const swipeThreshold = 50;
+  const swipeThreshold = 50
   if (touchStartX - touchEndX > swipeThreshold) {
-    const nextIndex = (activeIndex.value + 1) % videoList.length;
-    handleButtonClick(nextIndex);
+    const nextIndex = (activeIndex.value + 1) % videoList.length
+    handleButtonClick(nextIndex)
   } else if (touchEndX - touchStartX > swipeThreshold) {
-    const prevIndex = (activeIndex.value - 1 + videoList.length) % videoList.length;
-    handleButtonClick(prevIndex);
+    const prevIndex = (activeIndex.value - 1 + videoList.length) % videoList.length
+    handleButtonClick(prevIndex)
   }
-};
+}
 
 const handleButtonClick = (index) => {
-  if (index === activeIndex.value || isAnimating.value) return;
-  
-  slideDirection.value = index > activeIndex.value ? 'slide-left' : 'slide-right';
-  
-  isAnimating.value = true;
-  iframeLoaded.value = false; // 切換時重置載入狀態，顯示預覽圖
-  activeIndex.value = index;
+  if (index === activeIndex.value || isAnimating.value) return
+
+  slideDirection.value = index > activeIndex.value ? 'slide-left' : 'slide-right'
+
+  isAnimating.value = true
+  iframeLoaded.value = false // 切換時重置載入狀態，顯示預覽圖
+  activeIndex.value = index
 
   // 定時鎖定解除
   setTimeout(() => {
-    isAnimating.value = false;
-  }, 500); 
-};
+    isAnimating.value = false
+  }, 500)
+}
 
 const handleIframeLoad = () => {
   // 當 iframe 內部 HTML 載入後觸發，讓影片平滑顯現
-  iframeLoaded.value = true;
-};
+  iframeLoaded.value = true
+}
 </script>
 
 <style lang="scss" scoped>
@@ -199,7 +206,7 @@ video-area-block {
       z-index: 2;
       opacity: 0; /* 預設隱藏 */
       transition: opacity 0.4s ease-in; /* 平滑顯示影片 */
-      
+
       &.is-loaded {
         opacity: 1; /* 載入完成後顯示 */
       }
@@ -268,12 +275,17 @@ video-area-block {
 
 // --- 動畫樣式 ---
 
-.slide-left-enter-active, .slide-left-leave-active,
-.slide-right-enter-active, .slide-right-leave-active {
-  transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
+.slide-left-enter-active,
+.slide-left-leave-active,
+.slide-right-enter-active,
+.slide-right-leave-active {
+  transition:
+    transform 0.45s cubic-bezier(0.25, 1, 0.5, 1),
+    opacity 0.4s ease;
 }
 
-.slide-left-enter-active, .slide-right-enter-active {
+.slide-left-enter-active,
+.slide-right-enter-active {
   z-index: 2;
 }
 
@@ -295,10 +307,12 @@ video-area-block {
   opacity: 0;
 }
 
-.fade-smooth-enter-active, .fade-smooth-leave-active {
+.fade-smooth-enter-active,
+.fade-smooth-leave-active {
   transition: opacity 0.3s ease;
 }
-.fade-smooth-enter-from, .fade-smooth-leave-to {
+.fade-smooth-enter-from,
+.fade-smooth-leave-to {
   opacity: 0;
 }
 
@@ -345,7 +359,8 @@ video-action {
         object-fit: cover;
       }
 
-      &:hover, &.active {
+      &:hover,
+      &.active {
         border: #22bc95 solid 0.2vw;
         transform: scale(1.05);
       }
@@ -409,13 +424,21 @@ video-action {
       height: auto;
       padding: 4vw 0;
       margin: 0 auto;
-      h1 { display: none; }
+      h1 {
+        display: none;
+      }
       video-card {
         background-color: transparent;
         padding: 0;
         align-items: center;
-        h2 { font-size: 4.5vw; text-align: center; }
-        p { font-size: 3.5vw; text-align: center; }
+        h2 {
+          font-size: 4.5vw;
+          text-align: center;
+        }
+        p {
+          font-size: 3.5vw;
+          text-align: center;
+        }
       }
     }
   }
@@ -425,6 +448,7 @@ video-action {
     width: 90%;
     height: auto;
     background-color: transparent;
+
     video-pagination {
       width: 100%;
       justify-content: center;
@@ -433,6 +457,10 @@ video-action {
         width: 12vw;
         height: 12vw;
         margin-right: 3vw;
+        img {
+          width: 16vw;
+          height: 16vw;
+        }
       }
     }
     video-action-more-btn-container {
