@@ -26,7 +26,7 @@ onUnmounted(() => {
   </Transition>
 </template>
 
-<style scoped>
+<style scoped lang="scss">
 button {
   position: fixed;
   right: 5vw;
@@ -39,6 +39,7 @@ button {
   text-align: center;
   &:hover {
     background-color: #008e6b;
+    cursor: pointer;
   }
 }
 .v-enter-active,

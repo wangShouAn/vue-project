@@ -219,9 +219,6 @@ video-action {
       left: 50%;
       transform: translate(-50%, -50%);
       cursor: pointer;
-      margin: 0;
-      padding: 0;
-      border: none;
       background-color: #099471;
       text-align: center;
       color: #fff;
@@ -230,14 +227,21 @@ video-action {
       width: 6vw;
       height: 2vw;
       transition: all 0.3s ease-in-out;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .arrow-icon {
+        display: inline-block;
+        margin-left: 4px;
+        transition: transform 0.3s ease;
+        transform: rotate(-35deg);
+        font-weight: 900;
+        text-shadow: 0.5px 0 0 currentColor, -0.5px 0 0 currentColor;
+      }
 
       &:hover {
-        background-color: #12c397;
-
-        span.arrow {
-          display: inline-block;
-          transform: rotate(-45deg);
-        }
+        background-color: #19e9b5;
       }
     }
 
