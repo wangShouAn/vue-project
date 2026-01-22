@@ -231,6 +231,7 @@ socials {
 content {
   display: flex;
   flex-direction: row;
+  color: #555;
   text {
     white-space: pre-wrap;
     word-wrap: break-word;
