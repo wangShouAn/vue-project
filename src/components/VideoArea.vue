@@ -6,16 +6,27 @@
       @touchend="handleTouchEnd"
     >
       <div class="video-frame-wrapper">
+        <!-- 影片過渡動畫 -->
         <transition :name="slideDirection">
-          <iframe 
-            :key="activeIndex"
-            id="main-video" 
-            :src="currentVideoUrl" 
-            title="主影片"
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-            allowfullscreen
-          ></iframe>
+          <div :key="activeIndex" class="video-slide">
+            <!-- 底層預覽圖：防止 iframe 加載過程出現黑屏 -->
+            <img 
+              :src="`https://img.youtube.com/vi/${videoList[activeIndex].id}/hqdefault.jpg`" 
+              class="video-placeholder"
+            />
+            
+            <!-- 上層影片：加載完成後才透過 opacity 顯示 -->
+            <iframe 
+              id="main-video" 
+              :src="currentVideoUrl" 
+              title="主影片"
+              frameborder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              allowfullscreen
+              :class="{ 'is-loaded': iframeLoaded }"
+              @load="handleIframeLoad"
+            ></iframe>
+          </div>
         </transition>
       </div>
 
@@ -23,8 +34,12 @@
         <h1>影音專區</h1>
         <video-card>
           <div class="text-animation-container">
-            <h2 id="video-title">{{ currentTitle }}</h2>
-            <p id="video-desc">{{ currentDesc }}</p>
+            <transition name="fade-smooth" mode="out-in">
+              <div :key="activeIndex">
+                <h2 id="video-title">{{ currentTitle }}</h2>
+                <p id="video-desc">{{ currentDesc }}</p>
+              </div>
+            </transition>
           </div>
         </video-card>
       </video-content>
@@ -57,7 +72,7 @@ const videoList = [
   {
     id: 'fYnGJwbBBIQ',
     title: '合庫人壽校園巡講精華合輯',
-    desc: '風險管理不是害怕未來，而是讓選擇更多、夢想走得更遠。 邀請你一起回顧這段溫暖的校園旅程。'
+    desc: '風險管理不是害怕未來，而是讓選擇更多、夢想走得更遠。 邀請你一起回顧這段溫慢的校園旅程。'
   },
   {
     id: 'bn0xi52L1QU',
@@ -78,9 +93,10 @@ const videoList = [
 
 const activeIndex = ref(0);
 const isAnimating = ref(false);
+const iframeLoaded = ref(false); // 追蹤目前 iframe 是否載入完成
 const slideDirection = ref('slide-left');
 
-const currentVideoUrl = computed(() => `https://www.youtube.com/embed/${videoList[activeIndex.value].id}`);
+const currentVideoUrl = computed(() => `https://www.youtube.com/embed/${videoList[activeIndex.value].id}?autoplay=0&rel=0`);
 const currentTitle = computed(() => videoList[activeIndex.value].title);
 const currentDesc = computed(() => videoList[activeIndex.value].desc);
 
@@ -113,11 +129,18 @@ const handleButtonClick = (index) => {
   slideDirection.value = index > activeIndex.value ? 'slide-left' : 'slide-right';
   
   isAnimating.value = true;
+  iframeLoaded.value = false; // 切換時重置載入狀態，顯示預覽圖
   activeIndex.value = index;
 
+  // 定時鎖定解除
   setTimeout(() => {
     isAnimating.value = false;
-  }, 400); // 略大於 transition 時間以確保狀態更新
+  }, 500); 
+};
+
+const handleIframeLoad = () => {
+  // 當 iframe 內部 HTML 載入後觸發，讓影片平滑顯現
+  iframeLoaded.value = true;
 };
 </script>
 
@@ -144,6 +167,27 @@ video-area-block {
     background-color: #000;
     position: relative;
     overflow: hidden;
+    transform: translateZ(0);
+    contain: strict;
+
+    .video-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      will-change: transform;
+    }
+
+    .video-placeholder {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+    }
 
     iframe {
       position: absolute;
@@ -152,7 +196,13 @@ video-area-block {
       width: 100%;
       height: 100%;
       border: none;
-      will-change: transform, opacity;
+      z-index: 2;
+      opacity: 0; /* 預設隱藏 */
+      transition: opacity 0.4s ease-in; /* 平滑顯示影片 */
+      
+      &.is-loaded {
+        opacity: 1; /* 載入完成後顯示 */
+      }
     }
   }
 
@@ -216,39 +266,40 @@ video-area-block {
   }
 }
 
-// --- 優化後的流暢動畫樣式 ---
+// --- 動畫樣式 ---
 
 .slide-left-enter-active, .slide-left-leave-active,
 .slide-right-enter-active, .slide-right-leave-active {
-  transition: opacity 0.35s ease-out, transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+  transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.4s ease;
 }
 
-/* 確保進場的影片層級較高 */
 .slide-left-enter-active, .slide-right-enter-active {
   z-index: 2;
 }
-.slide-left-leave-active, .slide-right-leave-active {
-  z-index: 1;
-}
 
-/* 向左滑：新片從右滑入，舊片向左淡出 */
 .slide-left-enter-from {
+  transform: translateX(100%);
   opacity: 0;
-  transform: translateX(40px);
 }
 .slide-left-leave-to {
+  transform: translateX(-30%);
   opacity: 0;
-  transform: translateX(-20px);
 }
 
-/* 向右滑：新片從左滑入，舊片向右淡出 */
 .slide-right-enter-from {
+  transform: translateX(-100%);
   opacity: 0;
-  transform: translateX(-40px);
 }
 .slide-right-leave-to {
+  transform: translateX(30%);
   opacity: 0;
-  transform: translateX(20px);
+}
+
+.fade-smooth-enter-active, .fade-smooth-leave-active {
+  transition: opacity 0.3s ease;
+}
+.fade-smooth-enter-from, .fade-smooth-leave-to {
+  opacity: 0;
 }
 
 video-action {
@@ -281,7 +332,7 @@ video-action {
       background: #eee;
       flex-shrink: 0;
       position: relative;
-      transition: transform 0.3s ease, border-color 0.3s ease;
+      transition: transform 0.2s ease;
       cursor: pointer;
 
       img {
@@ -296,7 +347,7 @@ video-action {
 
       &:hover, &.active {
         border: #22bc95 solid 0.2vw;
-        transform: scale(1.1);
+        transform: scale(1.05);
       }
     }
   }
