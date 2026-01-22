@@ -122,22 +122,24 @@ const isOpen = (title) => activeGroups.value.includes(title)
         Chrome、Edge、Safari、Firefox之瀏覽器
       </div>
       <table class="contact-table">
-        <tr>
-          <td>客服電話</td>
-          <td>0800-033-133</td>
-        </tr>
-        <tr>
-          <td>客服信箱</td>
-          <td>tw_service@tcb-life.com.tw</td>
-        </tr>
-        <tr>
-          <td>客服傳真</td>
-          <td>02-2772-7773</td>
-        </tr>
-        <tr>
-          <td>公司地址</td>
-          <td>台北市中山區南京東路二段85．87號5樓</td>
-        </tr>
+        <tbody>
+          <tr>
+            <td>客服電話</td>
+            <td>0800-033-133</td>
+          </tr>
+          <tr>
+            <td>客服信箱</td>
+            <td>tw_service@tcb-life.com.tw</td>
+          </tr>
+          <tr>
+            <td>客服傳真</td>
+            <td>02-2772-7773</td>
+          </tr>
+          <tr>
+            <td>公司地址</td>
+            <td>台北市中山區南京東路二段85．87號5樓</td>
+          </tr>
+        </tbody>
       </table>
     </content>
   </footer>
