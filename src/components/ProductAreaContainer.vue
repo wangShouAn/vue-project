@@ -93,9 +93,11 @@ const product_items = [
     }
   }
   @media screen and (max-width: 840px) {
+    justify-content: left;
+    align-items: center;
     width: 100%;
     button {
-      width: 35vw;
+      width: 48vw;
       height: 20vw;
       img {
         width: 10vw;
