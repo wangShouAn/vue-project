@@ -91,7 +91,6 @@ section {
   padding: 20px 0;
 }
 
-/* 確保 Transition 的容器撐滿 */
 .slide-item {
   position: absolute;
   top: 0;
@@ -118,7 +117,7 @@ section {
   width: 85%;
   max-width: 1200px;
   aspect-ratio: 2880 / 990;
-  border-radius: 10% 96% 9% 5% / 90% 5% 8% 90%;
+  border-radius: 10% 1% 9% 5% / 90% 18% 18% 90%;
   box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   background-color: #f0f0f0;
