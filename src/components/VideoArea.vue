@@ -1,48 +1,134 @@
 <template>
-  <video-area-block>
-    <iframe width="724" height="395" src="https://www.youtube.com/embed/fYnGJwbBBIQ" title="🎥 合庫人壽校園巡講精華合輯"
-      frameborder="0" allow="
-        accelerometer;
-        autoplay;
-        clipboard-write;
-        encrypted-media;
-        gyroscope;
-        picture-in-picture;
-        web-share;
-      " referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  <div class="video-section-container">
+    <!-- 影片播放區塊 -->
+    <video-area-block 
+      @touchstart="handleTouchStart" 
+      @touchend="handleTouchEnd"
+    >
+      <div class="video-frame-wrapper">
+        <transition :name="slideDirection">
+          <iframe 
+            :key="activeIndex"
+            id="main-video" 
+            :src="currentVideoUrl" 
+            title="主影片"
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+            allowfullscreen
+          ></iframe>
+        </transition>
+      </div>
 
-    <video-content>
-      <h1>影音專區</h1>
-      <video-card>
-        <h2>合庫人壽校園巡講精華合輯</h2>
-        <p>
-          風險管理不是害怕未來，而是讓選擇更多、夢想走得更遠。 邀請你一起回顧這段溫暖的校園旅程。
-        </p>
-      </video-card>
-    </video-content>
-  </video-area-block>
-  <video-action>
-    <video-pagination>
-      <button>
-        <img src="https://img.youtube.com/vi/fYnGJwbBBIQ/hqdefault.jpg" />
-      </button>
-      <button>
-        <img src="https://img.youtube.com/vi/bn0xi52L1QU/hqdefault.jpg" />
-      </button>
-      <button>
-        <img src="https://img.youtube.com/vi/kH3Wyr3lw-Q/hqdefault.jpg" />
-      </button>
-      <button>
-        <img src="https://img.youtube.com/vi/lv6W6-24SRw/hqdefault.jpg" />
-      </button>
-    </video-pagination>
-    <video-action-more-btn-container>
-      <button class="lookMore">看更多<span class="arrow-icon">→</span></button>
-    </video-action-more-btn-container>
-  </video-action>
+      <video-content>
+        <h1>影音專區</h1>
+        <video-card>
+          <div class="text-animation-container">
+            <h2 id="video-title">{{ currentTitle }}</h2>
+            <p id="video-desc">{{ currentDesc }}</p>
+          </div>
+        </video-card>
+      </video-content>
+    </video-area-block>
+
+    <!-- 底部操作區 -->
+    <video-action>
+      <video-pagination>
+        <button 
+          v-for="(video, index) in videoList" 
+          :key="video.id"
+          :class="{ active: activeIndex === index }"
+          @click="handleButtonClick(index)"
+        >
+          <img :src="`https://img.youtube.com/vi/${video.id}/hqdefault.jpg`" />
+        </button>
+      </video-pagination>
+
+      <video-action-more-btn-container>
+        <button class="lookMore">看更多<span class="arrow-icon">→</span></button>
+      </video-action-more-btn-container>
+    </video-action>
+  </div>
 </template>
 
+<script setup>
+import { ref, computed } from 'vue';
+
+const videoList = [
+  {
+    id: 'fYnGJwbBBIQ',
+    title: '合庫人壽校園巡講精華合輯',
+    desc: '風險管理不是害怕未來，而是讓選擇更多、夢想走得更遠。 邀請你一起回顧這段溫暖的校園旅程。'
+  },
+  {
+    id: 'bn0xi52L1QU',
+    title: '如何規劃人生第一張保單？',
+    desc: '專家告訴你，年輕人投保的三大重點，讓你的未來更有保障，不用擔心意外。'
+  },
+  {
+    id: 'kH3Wyr3lw-Q',
+    title: '投資型保單怎麼選？',
+    desc: '深入淺出解析投資型保單的運作原理，讓你理財更安心，資產配置更靈活。'
+  },
+  {
+    id: 'lv6W6-24SRw',
+    title: '退休生活提早佈局',
+    desc: '不要等到老了才開始，現在就為你的樂活退休做準備，打造無憂的老後生活。'
+  }
+];
+
+const activeIndex = ref(0);
+const isAnimating = ref(false);
+const slideDirection = ref('slide-left');
+
+const currentVideoUrl = computed(() => `https://www.youtube.com/embed/${videoList[activeIndex.value].id}`);
+const currentTitle = computed(() => videoList[activeIndex.value].title);
+const currentDesc = computed(() => videoList[activeIndex.value].desc);
+
+let touchStartX = 0;
+let touchEndX = 0;
+
+const handleTouchStart = (e) => {
+  touchStartX = e.changedTouches[0].screenX;
+};
+
+const handleTouchEnd = (e) => {
+  touchEndX = e.changedTouches[0].screenX;
+  handleSwipe();
+};
+
+const handleSwipe = () => {
+  const swipeThreshold = 50;
+  if (touchStartX - touchEndX > swipeThreshold) {
+    const nextIndex = (activeIndex.value + 1) % videoList.length;
+    handleButtonClick(nextIndex);
+  } else if (touchEndX - touchStartX > swipeThreshold) {
+    const prevIndex = (activeIndex.value - 1 + videoList.length) % videoList.length;
+    handleButtonClick(prevIndex);
+  }
+};
+
+const handleButtonClick = (index) => {
+  if (index === activeIndex.value || isAnimating.value) return;
+  
+  slideDirection.value = index > activeIndex.value ? 'slide-left' : 'slide-right';
+  
+  isAnimating.value = true;
+  activeIndex.value = index;
+
+  setTimeout(() => {
+    isAnimating.value = false;
+  }, 400); // 略大於 transition 時間以確保狀態更新
+};
+</script>
+
 <style lang="scss" scoped>
+.video-section-container {
+  background-color: #fafafa;
+  width: 100%;
+  user-select: none;
+  overflow: hidden;
+}
+
 video-area-block {
   display: flex;
   justify-content: center;
@@ -51,24 +137,22 @@ video-area-block {
   margin-bottom: 0.5vw;
   padding: 0 16vw;
 
-  iframe {
+  .video-frame-wrapper {
     width: 31vw;
     height: 17vw;
     border-radius: 1vw;
-  }
+    background-color: #000;
+    position: relative;
+    overflow: hidden;
 
-  .lookMore:hover {
-    background-color: #12c397;
-
-    .arrow-icon {
-      display: inline-block;
-      transition: transform 0.3s ease;
-      transform: rotate(-45deg); // 將右箭頭旋轉成右上
-      margin-left: 4px;
-    }
-
-    &:hover .arrow-icon {
-      transform: rotate(-45deg) translate(2px, -2px); // 滑鼠移入時往右上跳動
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      will-change: transform, opacity;
     }
   }
 
@@ -79,14 +163,15 @@ video-area-block {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-
     background-color: #fff;
+    padding-left: 2vw;
 
     h1 {
       font-size: 1.5vw;
       margin: 0;
       padding: 0;
       color: #008765;
+      width: 100%;
     }
 
     video-card {
@@ -95,56 +180,75 @@ video-area-block {
       border-radius: 1vw;
       background-color: #f6f4ed;
       height: 100%;
+      width: 100%;
       justify-content: center;
-      align-items: first baseline;
-      padding: 3vw;
-
-      h2 {
-        font-size: 0.8vw;
-        margin: 0;
-        margin-bottom: 1vw;
-        padding: 0;
-        text-align: left;
-      }
-
-      p {
-        font-size: 0.7vw;
-        margin: 0;
-        padding: 0;
-      }
+      align-items: flex-start;
+      padding: 2vw;
+      box-sizing: border-box;
+      overflow: hidden;
     }
   }
+}
 
-  @media screen and (max-width: 840px) {
-    flex-direction: column;
+.text-animation-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 
-    iframe {
-      width: 100vw;
-      height: 55vw;
-    }
-
-    video-content {
-      width: 100vw;
-
-      h1 {
-        display: none;
-      }
-
-      video-card {
-        background-color: #ffffff00;
-
-        h2 {
-          font-size: 2.5vw;
-          position: relative;
-          left: 25%;
-        }
-
-        p {
-          font-size: 1.5vw;
-        }
-      }
-    }
+  h2 {
+    font-size: 1vw;
+    margin: 0;
+    margin-bottom: 1vw;
+    padding: 0;
+    text-align: left;
+    line-height: 1.4;
+    color: #333;
   }
+
+  p {
+    font-size: 0.8vw;
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+    color: #555;
+  }
+}
+
+// --- 優化後的流暢動畫樣式 ---
+
+.slide-left-enter-active, .slide-left-leave-active,
+.slide-right-enter-active, .slide-right-leave-active {
+  transition: opacity 0.35s ease-out, transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* 確保進場的影片層級較高 */
+.slide-left-enter-active, .slide-right-enter-active {
+  z-index: 2;
+}
+.slide-left-leave-active, .slide-right-leave-active {
+  z-index: 1;
+}
+
+/* 向左滑：新片從右滑入，舊片向左淡出 */
+.slide-left-enter-from {
+  opacity: 0;
+  transform: translateX(40px);
+}
+.slide-left-leave-to {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+/* 向右滑：新片從左滑入，舊片向右淡出 */
+.slide-right-enter-from {
+  opacity: 0;
+  transform: translateX(-40px);
+}
+.slide-right-leave-to {
+  opacity: 0;
+  transform: translateX(20px);
 }
 
 video-action {
@@ -154,19 +258,17 @@ video-action {
   margin: 0 auto;
   margin-bottom: 5vw;
   width: 75%;
-  height: 5vw;
+  height: 8vw;
   background-color: #fff;
   border-radius: 10px;
   padding: 0 10px;
 
   video-pagination {
     display: flex;
-    justify-content: left;
+    justify-content: flex-start;
     align-items: center;
     width: 31vw;
     height: 100%;
-    background-color: #fff;
-    border-radius: 10px;
 
     button {
       border-radius: 100%;
@@ -174,36 +276,27 @@ video-action {
       height: 5vw;
       overflow: hidden;
       border: #fff solid 0.2vw;
+      margin-right: 1vw;
+      padding: 0;
+      background: #eee;
+      flex-shrink: 0;
+      position: relative;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+      cursor: pointer;
 
       img {
         width: 10vw;
-        transform: translate(-3vw, -1.5vw);
-      }
-
-      &:hover {
-        border: #22bc95 solid 0.2vw;
-      }
-    }
-
-    @media screen and (max-width: 840px) {
-      width: 100%;
-      height: 15vw;
-      justify-content: center;
-
-      button {
-        width: 10vw;
         height: 10vw;
-        border: #fff solid 0.5vw;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        object-fit: cover;
+      }
 
-        &:hover {
-          border: #22bc95 solid 0.5vw;
-        }
-
-        img {
-          width: 20vw;
-          height: 16vw;
-          transform: translate(-7vw, -3vw);
-        }
+      &:hover, &.active {
+        border: #22bc95 solid 0.2vw;
+        transform: scale(1.1);
       }
     }
   }
@@ -211,13 +304,12 @@ video-action {
   video-action-more-btn-container {
     height: 100%;
     width: 24vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     button {
       all: unset;
-      position: relative;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
       cursor: pointer;
       background-color: #099471;
       text-align: center;
@@ -237,26 +329,70 @@ video-action {
         transition: transform 0.3s ease;
         transform: rotate(-35deg);
         font-weight: 900;
-        text-shadow: 0.5px 0 0 currentColor, -0.5px 0 0 currentColor;
       }
 
       &:hover {
         background-color: #19e9b5;
+        .arrow-icon {
+          transform: rotate(-45deg) translate(2px, -2px);
+        }
       }
     }
+  }
+}
 
-    @media screen and (max-width: 840px) {
-      button {
-        top: 100%;
-        width: 15vw;
-        height: 4vw;
-        font-size: 2vw;
+@media screen and (max-width: 840px) {
+  video-area-block {
+    flex-direction: column;
+    padding: 0;
+    margin: 5vw 0;
+
+    .video-frame-wrapper {
+      width: 100vw;
+      height: 56.25vw;
+      border-radius: 0;
+    }
+
+    video-content {
+      width: 90vw;
+      height: auto;
+      padding: 4vw 0;
+      margin: 0 auto;
+      h1 { display: none; }
+      video-card {
+        background-color: transparent;
+        padding: 0;
+        align-items: center;
+        h2 { font-size: 4.5vw; text-align: center; }
+        p { font-size: 3.5vw; text-align: center; }
       }
     }
   }
 
-  @media screen and (max-width: 840px) {
+  video-action {
     flex-direction: column;
+    width: 90%;
+    height: auto;
+    background-color: transparent;
+    video-pagination {
+      width: 100%;
+      justify-content: center;
+      margin-bottom: 6vw;
+      button {
+        width: 12vw;
+        height: 12vw;
+        margin-right: 3vw;
+      }
+    }
+    video-action-more-btn-container {
+      width: 100%;
+      button {
+        width: 30vw;
+        height: 10vw;
+        font-size: 4vw;
+        border-radius: 5vw;
+      }
+    }
   }
 }
 </style>
