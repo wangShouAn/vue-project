@@ -25,7 +25,7 @@ const swiper_slide_list = ref([
   {
     img: 'https://my.tcb-life.com.tw/file/681/公關-安心守護計畫20250827_RESIZE-2880X990.JPEG',
     url: 'https://my.tcb-life.com.tw/family-care',
-  },
+  }
 ])
 
 const swiper_index = ref(0)
