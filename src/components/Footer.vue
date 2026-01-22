@@ -137,10 +137,13 @@ footer {
       height: 2vw;
     }
     links {
+      margin-left: 1vw;
       display: flex;
       flex-direction: row;
       align-items: flex-start;
-      margin-left: 3vw;
+
+      flex-wrap: wrap;
+
       div {
         margin-right: 2vw;
         width: 10vw;
@@ -172,6 +175,7 @@ footer {
   }
 }
 subscription {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: baseline;
