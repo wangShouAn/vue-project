@@ -68,9 +68,79 @@ const navItems = ref([
       ],
     ],
   },
-  { open: false, name: '公平待客' },
-  { open: false, name: '保險知識庫' },
-  { open: false, name: '關於我們' },
+  {
+    open: false,
+    name: '公平待客',
+    img: 'https://my.tcb-life.com.tw/api/assets/7d15c00b-e668-4e88-a314-64007642b2aa',
+    item: [
+      [
+        {
+          text: '公平待客理念',
+          type: 'title',
+          item: [
+            { text: '總經理的話', type: 'link' },
+            { text: '公平待客十大原則', type: 'link' },
+            { text: '落實公平待客措施', type: 'link' },
+          ],
+        },
+        {
+          text: '友善服務',
+          type: 'title',
+          item: [
+            { text: '無障礙網站', type: 'link' },
+            { text: '金融友善服務', type: 'link' },
+            { text: '友善服務相關訊息', type: 'link' },
+          ],
+        },
+      ],
+      [
+        {
+          text: '感動與成就',
+          type: 'title',
+          item: [
+            { text: '公益活動紀錄', type: 'link' },
+            { text: '安心守護', type: 'link' },
+            { text: '永續發展', type: 'link' },
+          ],
+        },
+        { text: '樂齡專區', type: 'link' },
+        { text: '防詐專區', type: 'link' },
+      ],
+    ],
+  },
+  {
+    open: false,
+    name: '保險知識庫',
+    img: 'https://my.tcb-life.com.tw/api/assets/37cf93be-3d13-4f68-becf-b8c9ad76b1c5',
+    item: [
+      [
+        { text: '影音專區', type: 'link' },
+        { text: '金融小常識', type: 'link' },
+      ],
+    ],
+  },
+  {
+    open: false,
+    name: '關於我們',
+    img: 'https://my.tcb-life.com.tw/api/assets/0a55befe-f8aa-43ce-b8b3-8d63b54807df',
+    item: [
+      [
+        { text: '合作金庫人壽簡介', type: 'link' },
+        { text: '首長資料', type: 'link' },
+        { text: '得獎紀錄', type: 'link' },
+        { text: '信用評價', type: 'link' },
+        { text: '聯絡我們', type: 'link' },
+        { text: '公益咖啡', type: 'link' },
+      ],
+      [
+        { text: '永續發展', type: 'link' },
+        { text: '合作金控', type: 'link' },
+        { text: '合作金控永續發展', type: 'link' },
+        { text: '法商法國巴黎保險控股公司', type: 'link' },
+        { text: '關係企業', type: 'link' },
+      ],
+    ],
+  },
   { open: false, name: '🤔' },
 ])
 
