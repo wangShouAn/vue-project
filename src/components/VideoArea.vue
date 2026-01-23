@@ -172,7 +172,8 @@ const changeVideo = (index: number) => {
   grid-row: 1;
   display: flex;
   flex-direction: column;
-  margin-left: -60px;
+  margin-left: 0;
+  text-align: center;
   height: 100%;
 }
 
@@ -181,6 +182,9 @@ const changeVideo = (index: number) => {
   justify-content: center;
   padding-bottom: 12px;
   width: 100%;
+  position: relative;
+  left: 15%;
+
   h2 {
     line-height: 1;
     margin: 0;
