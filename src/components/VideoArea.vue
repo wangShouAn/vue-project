@@ -94,12 +94,40 @@ const goToMore = () => {
 </script>
 
 <style lang="scss" scoped>
+// 定義變數
+$primary-green: #008765;
+$hover-green: #27d4a9;
+$button-green: #189072;
+$active-border: #22bc95;
+$bg-beige: #f8f6f2;
+$white: #fff;
+$black: #000;
+
+$transition-base: 0.3s ease;
+$transition-slider: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+$shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+// 定義混入 (Mixins)
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin absolute-full {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+// 樣式主體
 .video-section-outer {
   width: 100%;
   padding: 60px 0;
-  background: #fff;
-  display: flex;
-  justify-content: center;
+  background: $white;
+  @include flex-center;
   overflow: hidden;
 }
 
@@ -121,6 +149,7 @@ const goToMore = () => {
   }
 }
 
+// 標題區域
 .header-area {
   grid-column: 2;
   margin-bottom: 20px;
@@ -129,28 +158,29 @@ const goToMore = () => {
     order: 1;
     text-align: center;
   }
-}
 
-.title-wrapper {
-  padding-left: 150px;
-  margin-bottom: -80px;
+  .title-wrapper {
+    padding-left: 150px;
+    margin-bottom: -80px;
 
-  @media (max-width: 1050px) {
-    padding-left: 0;
-  }
+    @media (max-width: 1050px) {
+      padding-left: 0;
+    }
 
-  .section-title {
-    color: #008765;
-    font-size: 32px;
-    font-weight: bold;
-    @media(max-width: 1050px) {
+    .section-title {
+      color: $primary-green;
+      font-size: 32px;
+      font-weight: bold;
+
+      @media (max-width: 1050px) {
         margin-bottom: 80px;
         padding-right: 500px;
-
+      }
     }
   }
 }
 
+// 影片顯示區
 .video-cell {
   grid-column: 1;
   grid-row: 2;
@@ -160,14 +190,24 @@ const goToMore = () => {
   @media (max-width: 1050px) {
     order: 2;
   }
-}
 
-.video-wrapper {
-  width: 100%;
-  border-radius: 15px 15px 0 15px;
-  overflow: hidden;
-  background: #000;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  .video-wrapper {
+    width: 100%;
+    border-radius: 15px 15px 0 15px;
+    overflow: hidden;
+    background: $black;
+    box-shadow: $shadow-light;
+
+    .slider-track {
+      display: flex;
+      transition: transform $transition-slider;
+      width: 100%;
+
+      .slide-item {
+        min-width: 100%;
+      }
+    }
+  }
 }
 
 .video-ratio-box {
@@ -175,39 +215,34 @@ const goToMore = () => {
   width: 100%;
   height: 0;
   padding-bottom: 56.25%;
+
+  .video-poster,
+  .iframe-fit {
+    @include absolute-full;
+    object-fit: cover;
+  }
+
+  .video-poster {
+    background-size: cover;
+    background-position: center;
+    @include flex-center;
+    cursor: pointer;
+
+    .play-btn-wrapper {
+      width: 68px;
+      height: 48px;
+      z-index: 10;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+
+      .custom-play-svg {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
 }
 
-.video-poster,
-.iframe-fit {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.video-poster {
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.play-btn-wrapper {
-  width: 68px;
-  height: 48px;
-  z-index: 10;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
-}
-
-.custom-play-svg {
-  width: 100%;
-  height: 100%;
-}
-
+// 文字內容區
 .content-area {
   grid-column: 2;
   grid-row: 2;
@@ -215,28 +250,39 @@ const goToMore = () => {
   @media (max-width: 1050px) {
     order: 3;
   }
-}
 
-.beige-card {
-  background: #f8f6f2;
-  border-radius: 0 20px 20px 0;
-  margin-left: -60px;
-  padding: 40px 40px 40px 100px;
-  min-height: 200px;
-  display: flex;
-  align-items: center;
+  .beige-card {
+    background: $bg-beige;
+    border-radius: 0 20px 20px 0;
+    margin-left: -60px;
+    padding: 40px 40px 40px 100px;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
 
-  @media (max-width: 1050px) {
-    margin: -20px 0 0 0;
-    padding: 40px 20px;
-    border-radius: 20px;
-    text-align: center;
-    min-height: 20px;
-    justify-content: center;
-    background-color: white;
+    @media (max-width: 1050px) {
+      margin: -20px 0 0 0;
+      padding: 40px 20px;
+      border-radius: 20px;
+      text-align: center;
+      min-height: 20px;
+      justify-content: center;
+      background-color: $white;
+    }
+
+    .v-title {
+      font-size: 1.25rem;
+      margin-bottom: 10px;
+    }
+
+    .v-desc {
+      color: #666;
+      line-height: 1.6;
+    }
   }
 }
 
+// 底部控制區
 .footer-cell {
   grid-column: 1 / span 2;
   padding-top: 40px;
@@ -244,18 +290,18 @@ const goToMore = () => {
   @media (max-width: 1050px) {
     order: 4;
   }
-}
 
-.footer-flex-row {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 45%;
-  width: 100%;
+  .footer-flex-row {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 45%;
+    width: 100%;
 
-  @media (max-width: 1050px) {
-    flex-direction: column;
-    gap: 20px;
+    @media (max-width: 1050px) {
+      flex-direction: column;
+      gap: 20px;
+    }
   }
 }
 
@@ -270,40 +316,34 @@ const goToMore = () => {
     height: 65px;
     border-radius: 50%;
     background-size: cover;
+    background-position: center;
     border: 3px solid transparent;
     cursor: pointer;
-    transition: 0.3s;
+    transition: $transition-base;
 
     &.active {
-      border-color: #22bc95;
+      border-color: $active-border;
       transform: scale(1.1);
+    }
+
+    &:hover:not(.active) {
+      opacity: 0.8;
     }
   }
 }
 
 .more-link {
-  background: #189072;
-  color: #fff;
+  background: $button-green;
+  color: $white;
   border: none;
   padding: 12px 35px;
   border-radius: 30px;
   font-weight: bold;
   cursor: pointer;
-  margin-left: 0;
-  transition: background 0.3s ease;
+  transition: background $transition-base;
 
   &:hover {
-    background: #27d4a9;
+    background: $hover-green;
   }
-}
-
-.slider-track {
-  display: flex;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-  width: 100%;
-}
-
-.slide-item {
-  min-width: 100%;
 }
 </style>
