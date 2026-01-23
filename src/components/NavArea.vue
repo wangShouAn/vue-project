@@ -207,7 +207,7 @@ nav {
   &.isVisible {
     box-shadow: none;
   }
-  transition: all 0.3s ease-in-out;
+  transition: all 1s linear;
   box-shadow: 0 0 1vw rgba(0, 0, 0, 0.4);
   width: 75%;
   display: flex;
