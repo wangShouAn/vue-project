@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 
 const logo =
   'https://my.tcb-life.com.tw/assets/%E5%90%88%E5%BA%AB%E4%BA%BA%E5%A3%BDLOGO-BPgS4Q-a.svg'
@@ -144,14 +144,6 @@ const navItems = ref([
   { open: false, name: '🤔' },
 ])
 
-function toggleMenu(index) {
-  navItems.value[index].open = !navItems.value[index].open
-  navItems.value.forEach((item, i) => {
-    if (i !== index) {
-      item.open = false
-    }
-  })
-}
 function openMenu(index) {
   navItems.value.forEach((item) => {
     item.open = false
@@ -163,10 +155,24 @@ function closeMenu() {
     item.open = false
   })
 }
+
+const isVisible = ref(false)
+
+function handleScroll() {
+  isVisible.value = window.scrollY > 0
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
 </script>
 
 <template>
-  <nav>
+  <nav :class="{ isVisible: !isVisible }">
     <img :src="logo" />
     <ul>
       <li v-for="(item, index) in navItems" :key="index">
@@ -198,6 +204,10 @@ function closeMenu() {
 
 <style lang="scss" scoped>
 nav {
+  &.isVisible {
+    box-shadow: none;
+  }
+  transition: all 0.3s ease-in-out;
   box-shadow: 0 0 1vw rgba(0, 0, 0, 0.4);
   width: 75%;
   display: flex;
