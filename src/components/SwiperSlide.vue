@@ -153,7 +153,7 @@ section {
   max-width: 1200px;
   aspect-ratio: 2880 / 990;
   border-radius: 10% 6% 6% 6% / 40% 10% 10% 100%;
-  box-shadow: 0px 0px 4vw rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 0px 1.5vw rgba(0, 0, 0, 0.5);
   overflow: hidden;
   background-color: #f0f0f0;
 

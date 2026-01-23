@@ -118,7 +118,7 @@ const isOpen = (title) => activeGroups.value.includes(title)
     <content>
       <div class="footer-text">
         合作金庫人壽保險股份有限公司 版權所有 © 2026 BNP Paribas Cardif TCB Life Insurance Co., Ltd.
-        All Rights Reserved 為達最佳顯示效果，本網站建議使用最新版本Google
+        All Rights Reserved 為達最佳顯示效果,本網站建議使用最新版本Google
         Chrome、Edge、Safari、Firefox之瀏覽器
       </div>
       <table class="contact-table">
