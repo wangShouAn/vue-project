@@ -146,6 +146,22 @@ const navItems = ref([
 
 function toggleMenu(index) {
   navItems.value[index].open = !navItems.value[index].open
+  navItems.value.forEach((item, i) => {
+    if (i !== index) {
+      item.open = false
+    }
+  })
+}
+function openMenu(index) {
+  navItems.value.forEach((item) => {
+    item.open = false
+  })
+  navItems.value[index].open = true
+}
+function closeMenu() {
+  navItems.value.forEach((item) => {
+    item.open = false
+  })
 }
 </script>
 
@@ -154,8 +170,10 @@ function toggleMenu(index) {
     <img :src="logo" />
     <ul>
       <li v-for="(item, index) in navItems" :key="index">
-        <button @click="toggleMenu(index)">{{ item.name }}</button>
-        <menu v-if="item.open && item.item">
+        <button @mouseenter="openMenu(index)">
+          {{ item.name }}
+        </button>
+        <menu @mouseleave="closeMenu()" v-if="item.open && item.item">
           <img v-if="item.img" :src="item.img" />
 
           <ul v-for="(subItems, subIndex) in item.item" :key="subIndex">
