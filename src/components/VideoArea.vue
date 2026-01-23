@@ -223,6 +223,9 @@ const goToMore = () => {
         min-width: 100%;
       }
     }
+    @media screen and (max-width: 840px) {
+      border-radius: 15px;
+    }
   }
 }
 
