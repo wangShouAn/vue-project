@@ -2,27 +2,36 @@
   <div class="video-section-outer">
     <div class="content-container">
       <div class="video-layout-grid">
-
         <div class="video-cell">
           <div class="video-wrapper">
             <div class="slider-track" :style="{ transform: `translateX(-${activeIndex * 100}%)` }">
               <div v-for="(video, index) in videoList" :key="video.id" class="slide-item">
                 <div class="video-ratio-box">
                   <template v-if="playingIndex !== index">
-                    <div class="video-poster" @click="startPlay(index)"
-                      :style="{ backgroundImage: `url(https://img.youtube.com/vi/${video.id}/maxresdefault.jpg)` }">
+                    <div
+                      class="video-poster"
+                      @click="startPlay(index)"
+                      :style="{
+                        backgroundImage: `url(https://img.youtube.com/vi/${video.id}/maxresdefault.jpg)`,
+                      }"
+                    >
                       <div class="play-btn-svg">
                         <svg viewBox="0 0 68 48">
-                          <path fill="#f00"
-                            d="M66.5 7.7c-.8-2.9-2.5-5.4-5.4-6.2C55.8.1 34 0 34 0S12.2.1 6.9 1.5c-2.9.8-4.6 3.3-5.4 6.2C0 13 0 24 0 24s0 11 1.5 16.3c.8 2.9 2.5 5.4 5.4 6.2 5.3 1.4 27.1 1.5 27.1 1.5s21.8-.1 27.1-1.5c2.9-.8 4.6-3.3 5.4-6.2C68 35 68 24 68 24s0-11-1.5-16.3z" />
+                          <path
+                            fill="#f00"
+                            d="M66.5 7.7c-.8-2.9-2.5-5.4-5.4-6.2C55.8.1 34 0 34 0S12.2.1 6.9 1.5c-2.9.8-4.6 3.3-5.4 6.2C0 13 0 24 0 24s0 11 1.5 16.3c.8 2.9 2.5 5.4 5.4 6.2 5.3 1.4 27.1 1.5 27.1 1.5s21.8-.1 27.1-1.5c2.9-.8 4.6-3.3 5.4-6.2C68 35 68 24 68 24s0-11-1.5-16.3z"
+                          />
                           <path fill="#fff" d="M45 24L27 14v20z" />
                         </svg>
                       </div>
                     </div>
                   </template>
                   <template v-else>
-                    <iframe :src="`https://www.youtube.com/embed/${video.id}?autoplay=1`" class="iframe-fit"
-                      allow="autoplay; fullscreen"></iframe>
+                    <iframe
+                      :src="`https://www.youtube.com/embed/${video.id}?autoplay=1`"
+                      class="iframe-fit"
+                      allow="autoplay; fullscreen"
+                    ></iframe>
                   </template>
                 </div>
               </div>
@@ -45,15 +54,20 @@
         <div class="footer-cell">
           <div class="footer-flex-row">
             <div class="thumb-group">
-              <button v-for="(video, index) in videoList" :key="video.id" @click="changeVideo(index)" class="dot"
+              <button
+                v-for="(video, index) in videoList"
+                :key="video.id"
+                @click="changeVideo(index)"
+                class="dot"
                 :class="{ active: activeIndex === index }"
-                :style="{ backgroundImage: `url(https://img.youtube.com/vi/${video.id}/mqdefault.jpg)` }">
-              </button>
+                :style="{
+                  backgroundImage: `url(https://img.youtube.com/vi/${video.id}/mqdefault.jpg)`,
+                }"
+              ></button>
             </div>
             <button class="more-link">看更多 ↗</button>
           </div>
         </div>
-
       </div>
     </div>
   </div>
@@ -69,21 +83,39 @@ interface Video {
 }
 
 const videoList = [
-  { id: '-qvT8wtz2gA', title: '合庫人壽 一路同行 2025年回顧', desc: '2025 年， 我們不只慶祝 15 週年， 更用行動，陪伴每一段人生。' },
-  { id: '-s7mmCKrPaY', title: '愛的職務', desc: '當父母離去，面對他們留下的遺物時，你會想起他們扮演的哪一個角色？' },
-  { id: 'fYnGJwbBBIQ', title: '合庫人壽校園巡講精華合輯', desc: '風險管理不是害怕未來，而是讓選擇更多、夢想走得更遠。' },
-  { id: 'bn0xi52L1QU', title: '合庫人壽暖心帶領走讀金融街', desc: '合庫人壽喘息學院帶著家庭照顧者「走讀台中金融街」一同穿越百年時光。' }
-];
+  {
+    id: '-qvT8wtz2gA',
+    title: '合庫人壽 一路同行 2025年回顧',
+    desc: '2025 年， 我們不只慶祝 15 週年， 更用行動，陪伴每一段人生。',
+  },
+  {
+    id: '-s7mmCKrPaY',
+    title: '愛的職務',
+    desc: '當父母離去，面對他們留下的遺物時，你會想起他們扮演的哪一個角色？',
+  },
+  {
+    id: 'fYnGJwbBBIQ',
+    title: '合庫人壽校園巡講精華合輯',
+    desc: '風險管理不是害怕未來，而是讓選擇更多、夢想走得更遠。',
+  },
+  {
+    id: 'bn0xi52L1QU',
+    title: '合庫人壽暖心帶領走讀金融街',
+    desc: '合庫人壽喘息學院帶著家庭照顧者「走讀台中金融街」一同穿越百年時光。',
+  },
+]
 
 const activeIndex = ref(0)
 const playingIndex = ref(-1)
 
 const currentVideo = computed<Video>(() => {
-  return videoList[activeIndex.value] ?? {
-    id: '',
-    title: '',
-    desc: ''
-  }
+  return (
+    videoList[activeIndex.value] ?? {
+      id: '',
+      title: '',
+      desc: '',
+    }
+  )
 })
 
 const startPlay = (index: number) => {
@@ -99,6 +131,7 @@ const changeVideo = (index: number) => {
 
 <style lang="scss" scoped>
 .video-section-outer {
+  transform: translateX(-5%);
   width: 100%;
   padding: 40px 0;
   background: #fff;
@@ -153,7 +186,7 @@ const changeVideo = (index: number) => {
     margin: 0;
     color: #008765;
     font-size: 32px;
-    font-weight: bold
+    font-weight: bold;
   }
 }
 
@@ -239,8 +272,8 @@ const changeVideo = (index: number) => {
   align-items: center;
   justify-content: center;
   line-height: 1;
-  margin: 0; 
-  white-space: nowrap; 
+  margin: 0;
+  white-space: nowrap;
 }
 
 .slider-track {
