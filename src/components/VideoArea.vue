@@ -54,7 +54,7 @@
                   backgroundImage: `url(https://img.youtube.com/vi/${video.id}/mqdefault.jpg)`,
                 }"></button>
             </div>
-            <button class="more-link">看更多 ↗</button>
+            <button class="more-link" @click="goToMore">看更多 ↗</button>
           </div>
         </div>
 
@@ -71,6 +71,7 @@ const videoList = [
   { id: '-s7mmCKrPaY', title: '愛的職務', desc: '當父母離去，面對他們留下的遺物時，你會想起他們扮演的哪一個角色？' },
   { id: 'fYnGJwbBBIQ', title: '合庫人壽校園巡講精華合輯', desc: '風險管理不是害怕未來，而是讓選擇更多、夢想走得更遠。' },
   { id: 'bn0xi52L1QU', title: '合庫人壽暖心帶領走讀金融街', desc: '合庫人壽喘息學院帶著家庭照顧者「走讀台中金融街」一同穿越百年時光。' },
+  { id: 'xJV69s_OSXM', title: '【Ｎ１文法】～たためしがない', desc: '學問好比腸胃裡的食物，裝下多少並不重要，吸收多少才重要' },
 ]
 
 const activeIndex = ref(0)
@@ -85,6 +86,10 @@ const startPlay = (index: number) => {
 const changeVideo = (index: number) => {
   activeIndex.value = index
   playingIndex.value = -1
+}
+
+const goToMore = () => {
+  window.location.href = 'https://my.tcb-life.com.tw/video'
 }
 </script>
 
