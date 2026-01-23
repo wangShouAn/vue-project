@@ -110,6 +110,7 @@ function toggleMenu(index) {
 
 <style lang="scss" scoped>
 nav {
+  box-shadow: 0 0 1vw rgba(0, 0, 0, 0.4);
   width: 75%;
   display: flex;
   justify-content: space-around;
