@@ -118,11 +118,14 @@ common-function-block {
     width: 0.2vw;
     background-color: #ccc;
     margin: 0px 1vw;
+    @media screen and (max-width: 840px) {
+      display: none;
+    }
   }
   @media screen and (max-width: 840px) {
     width: 100%;
     a {
-      width: 20%;
+      width: 22vw;
       img {
         height: 10vw;
         position: relative;

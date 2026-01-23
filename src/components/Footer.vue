@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref, watch, watchEffect } from 'vue'
 
 const linkList = [
   {
@@ -59,7 +59,15 @@ const linkList = [
     links: [{ text: '防詐專區', link: '#' }],
   },
 ]
-
+const email = ref('')
+const is_ture_email = computed(
+  () =>
+    email.value.includes('@') &&
+    email.value.includes('.') &&
+    email.value.length > 10 &&
+    email.value.length < 100 &&
+    email.value.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/) != null,
+)
 const activeGroups = ref([])
 
 function toggleGroup(title) {
@@ -77,7 +85,9 @@ const isOpen = (title) => activeGroups.value.includes(title)
 <template>
   <footer>
     <footer-link-block>
-      <img src="https://my.tcb-life.com.tw/assets/%E5%90%88%E5%BA%AB%E4%BA%BA%E5%A3%BDLOGO-hrqQj5ac.svg" />
+      <img
+        src="https://my.tcb-life.com.tw/assets/%E5%90%88%E5%BA%AB%E4%BA%BA%E5%A3%BDLOGO-hrqQj5ac.svg"
+      />
       <links>
         <div v-for="linkGroup in linkList" :key="linkGroup.text">
           <h3 @click="toggleGroup(linkGroup.text)">
@@ -95,15 +105,16 @@ const isOpen = (title) => activeGroups.value.includes(title)
       </links>
       <subscription>
         <h5>快來訂閱獲得最新資訊吧！</h5>
-        <input type="email" placeholder="輸入您的信箱" />
-        <button class="disabled">訂閱</button>
+        <input type="email" placeholder="輸入您的信箱" v-model="email" />
+        <button :class="{ disabled: !is_ture_email }">訂閱</button>
       </subscription>
     </footer-link-block>
     <socials>
       <span></span>
       <a href="#">
         <img
-          src="data:image/svg+xml,%3csvg%20width='40'%20height='41'%20viewBox='0%200%2040%2041'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cg%20clip-path='url(%23clip0_9865_27585)'%3e%3cpath%20d='M0%208.27344C0%203.85516%203.58172%200.273438%208%200.273438H32C36.4183%200.273438%2040%203.85516%2040%208.27344V32.2734C40%2036.6917%2036.4183%2040.2734%2032%2040.2734H8C3.58172%2040.2734%200%2036.6917%200%2032.2734V8.27344Z'%20fill='url(%23paint0_linear_9865_27585)'/%3e%3cpath%20d='M22.7497%2034.3655V22.1216H27.1356L27.7923%2017.3499H22.7496V14.3034C22.7496%2012.9218%2023.159%2011.9804%2025.2733%2011.9804L27.9698%2011.9792V7.71144C27.5034%207.65339%2025.9026%207.52344%2024.0405%207.52344C20.1526%207.52344%2017.4909%209.74712%2017.4909%2013.8309V17.3499H13.0938V22.1216H17.4909V34.3654H22.7497V34.3655Z'%20fill='white'/%3e%3crect%20x='2'%20y='2.27344'%20width='36'%20height='10'%20rx='4'%20fill='url(%23paint1_linear_9865_27585)'/%3e%3cg%20clip-path='url(%23clip1_9865_27585)'%3e%3crect%20y='0.273438'%20width='40'%20height='40'%20fill='%231977F3'/%3e%3cpath%20d='M40%2020.2734C40%209.23047%2031.043%200.273438%2020%200.273438C8.95703%200.273438%200%209.23047%200%2020.2734C0%2030.2539%207.3125%2038.5312%2016.875%2040.0312V26.0547H11.7969V20.2734H16.875V15.8672C16.875%2010.8555%2019.8633%208.08594%2024.4297%208.08594C26.6172%208.08594%2028.9062%208.47656%2028.9062%208.47656V13.3984H26.3828C23.8984%2013.3984%2023.125%2014.9414%2023.125%2016.5234V20.2734H28.6719L27.7852%2026.0547H23.125V40.0312C32.6875%2038.5312%2040%2030.2578%2040%2020.2734Z'%20fill='%231977F3'/%3e%3cpath%20d='M27.7852%2026.0547L28.6719%2020.2734H23.125V16.5234C23.125%2014.9414%2023.8984%2013.3984%2026.3828%2013.3984H28.9062V8.47656C28.9062%208.47656%2026.6172%208.08594%2024.4297%208.08594C19.8633%208.08594%2016.875%2010.8516%2016.875%2015.8672V20.2734H11.7969V26.0547H16.875V40.0312C17.8945%2040.1914%2018.9375%2040.2734%2020%2040.2734C21.0625%2040.2734%2022.1055%2040.1875%2023.125%2040.0312V26.0547H27.7852Z'%20fill='%23FEFEFE'/%3e%3c/g%3e%3c/g%3e%3cdefs%3e%3clinearGradient%20id='paint0_linear_9865_27585'%20x1='16.6667'%20y1='40.2734'%20x2='16.6667'%20y2='0.273437'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%2300C291'/%3e%3cstop%20offset='1'%20stop-color='%23008E6A'/%3e%3c/linearGradient%3e%3clinearGradient%20id='paint1_linear_9865_27585'%20x1='22.1468'%20y1='2.27344'%20x2='22.1468'%20y2='12.2734'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='white'%20stop-opacity='0.2'/%3e%3cstop%20offset='1'%20stop-color='white'%20stop-opacity='0'/%3e%3c/linearGradient%3e%3cclipPath%20id='clip0_9865_27585'%3e%3cpath%20d='M0%208.27344C0%203.85516%203.58172%200.273438%208%200.273438H32C36.4183%200.273438%2040%203.85516%2040%208.27344V32.2734C40%2036.6917%2036.4183%2040.2734%2032%2040.2734H8C3.58172%2040.2734%200%2036.6917%200%2032.2734V8.27344Z'%20fill='white'/%3e%3c/clipPath%3e%3cclipPath%20id='clip1_9865_27585'%3e%3crect%20width='40'%20height='40'%20fill='white'%20transform='translate(0%200.273438)'/%3e%3c/clipPath%3e%3c/defs%3e%3c/svg%3e" />
+          src="data:image/svg+xml,%3csvg%20width='40'%20height='41'%20viewBox='0%200%2040%2041'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3cg%20clip-path='url(%23clip0_9865_27585)'%3e%3cpath%20d='M0%208.27344C0%203.85516%203.58172%200.273438%208%200.273438H32C36.4183%200.273438%2040%203.85516%2040%208.27344V32.2734C40%2036.6917%2036.4183%2040.2734%2032%2040.2734H8C3.58172%2040.2734%200%2036.6917%200%2032.2734V8.27344Z'%20fill='url(%23paint0_linear_9865_27585)'/%3e%3cpath%20d='M22.7497%2034.3655V22.1216H27.1356L27.7923%2017.3499H22.7496V14.3034C22.7496%2012.9218%2023.159%2011.9804%2025.2733%2011.9804L27.9698%2011.9792V7.71144C27.5034%207.65339%2025.9026%207.52344%2024.0405%207.52344C20.1526%207.52344%2017.4909%209.74712%2017.4909%2013.8309V17.3499H13.0938V22.1216H17.4909V34.3654H22.7497V34.3655Z'%20fill='white'/%3e%3crect%20x='2'%20y='2.27344'%20width='36'%20height='10'%20rx='4'%20fill='url(%23paint1_linear_9865_27585)'/%3e%3cg%20clip-path='url(%23clip1_9865_27585)'%3e%3crect%20y='0.273438'%20width='40'%20height='40'%20fill='%231977F3'/%3e%3cpath%20d='M40%2020.2734C40%209.23047%2031.043%200.273438%2020%200.273438C8.95703%200.273438%200%209.23047%200%2020.2734C0%2030.2539%207.3125%2038.5312%2016.875%2040.0312V26.0547H11.7969V20.2734H16.875V15.8672C16.875%2010.8555%2019.8633%208.08594%2024.4297%208.08594C26.6172%208.08594%2028.9062%208.47656%2028.9062%208.47656V13.3984H26.3828C23.8984%2013.3984%2023.125%2014.9414%2023.125%2016.5234V20.2734H28.6719L27.7852%2026.0547H23.125V40.0312C32.6875%2038.5312%2040%2030.2578%2040%2020.2734Z'%20fill='%231977F3'/%3e%3cpath%20d='M27.7852%2026.0547L28.6719%2020.2734H23.125V16.5234C23.125%2014.9414%2023.8984%2013.3984%2026.3828%2013.3984H28.9062V8.47656C28.9062%208.47656%2026.6172%208.08594%2024.4297%208.08594C19.8633%208.08594%2016.875%2010.8516%2016.875%2015.8672V20.2734H11.7969V26.0547H16.875V40.0312C17.8945%2040.1914%2018.9375%2040.2734%2020%2040.2734C21.0625%2040.2734%2022.1055%2040.1875%2023.125%2040.0312V26.0547H27.7852Z'%20fill='%23FEFEFE'/%3e%3c/g%3e%3c/g%3e%3cdefs%3e%3clinearGradient%20id='paint0_linear_9865_27585'%20x1='16.6667'%20y1='40.2734'%20x2='16.6667'%20y2='0.273437'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='%2300C291'/%3e%3cstop%20offset='1'%20stop-color='%23008E6A'/%3e%3c/linearGradient%3e%3clinearGradient%20id='paint1_linear_9865_27585'%20x1='22.1468'%20y1='2.27344'%20x2='22.1468'%20y2='12.2734'%20gradientUnits='userSpaceOnUse'%3e%3cstop%20stop-color='white'%20stop-opacity='0.2'/%3e%3cstop%20offset='1'%20stop-color='white'%20stop-opacity='0'/%3e%3c/linearGradient%3e%3cclipPath%20id='clip0_9865_27585'%3e%3cpath%20d='M0%208.27344C0%203.85516%203.58172%200.273438%208%200.273438H32C36.4183%200.273438%2040%203.85516%2040%208.27344V32.2734C40%2036.6917%2036.4183%2040.2734%2032%2040.2734H8C3.58172%2040.2734%200%2036.6917%200%2032.2734V8.27344Z'%20fill='white'/%3e%3c/clipPath%3e%3cclipPath%20id='clip1_9865_27585'%3e%3crect%20width='40'%20height='40'%20fill='white'%20transform='translate(0%200.273438)'/%3e%3c/clipPath%3e%3c/defs%3e%3c/svg%3e"
+        />
       </a>
       <a href="#">
         <img src="https://my.tcb-life.com.tw//assets/youtube-Cz1JTfjx.svg" />
@@ -246,7 +257,7 @@ footer {
       flex-direction: column;
       align-items: center;
 
-      &>img {
+      & > img {
         display: none;
       }
     }

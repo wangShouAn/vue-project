@@ -22,7 +22,7 @@ onUnmounted(() => {
 
 <template>
   <Transition>
-    <button v-show="isVisible" @click="topFunction()">☝️</button>
+    <button v-show="isVisible" @click="topFunction()">🔺</button>
   </Transition>
 </template>
 

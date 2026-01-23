@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 
 const logo =
   'https://my.tcb-life.com.tw/assets/%E5%90%88%E5%BA%AB%E4%BA%BA%E5%A3%BDLOGO-BPgS4Q-a.svg'
@@ -144,18 +144,42 @@ const navItems = ref([
   { open: false, name: '🤔' },
 ])
 
-function toggleMenu(index) {
-  navItems.value[index].open = !navItems.value[index].open
+function openMenu(index) {
+  navItems.value.forEach((item) => {
+    item.open = false
+  })
+  navItems.value[index].open = true
 }
+function closeMenu() {
+  navItems.value.forEach((item) => {
+    item.open = false
+  })
+}
+
+const isVisible = ref(false)
+
+function handleScroll() {
+  isVisible.value = window.scrollY > 0
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
 </script>
 
 <template>
-  <nav>
+  <nav :class="{ isVisible: !isVisible }">
     <img :src="logo" />
     <ul>
       <li v-for="(item, index) in navItems" :key="index">
-        <button @click="toggleMenu(index)">{{ item.name }}</button>
-        <menu v-if="item.open && item.item">
+        <button @mouseenter="openMenu(index)">
+          {{ item.name }}
+        </button>
+        <menu @mouseleave="closeMenu()" v-if="item.open && item.item">
           <img v-if="item.img" :src="item.img" />
 
           <ul v-for="(subItems, subIndex) in item.item" :key="subIndex">
@@ -180,6 +204,10 @@ function toggleMenu(index) {
 
 <style lang="scss" scoped>
 nav {
+  &.isVisible {
+    box-shadow: none;
+  }
+  transition: all 1s linear;
   box-shadow: 0 0 1vw rgba(0, 0, 0, 0.4);
   width: 75%;
   display: flex;
@@ -219,12 +247,19 @@ nav {
         }
       }
       menu {
+        box-sizing: border-box;
         overflow-x: scroll;
         display: flex;
         position: fixed;
+        width: 80vw;
+        height: auto;
+        min-height: 30vw;
+        top: 5vw;
+        left: 50%;
+        transform: translateX(-50%);
+
         background-color: white;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        transform: translateX(-40%);
         border-radius: 2vw;
         padding: 2vw;
         img {
