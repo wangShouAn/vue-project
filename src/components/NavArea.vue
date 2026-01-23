@@ -201,7 +201,6 @@ onUnmounted(() => {
     </ul>
   </nav>
 </template>
-
 <style lang="scss" scoped>
 nav {
   &.isVisible {
