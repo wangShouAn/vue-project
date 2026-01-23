@@ -106,8 +106,8 @@ announcement-and-event-container {
         color: #fff;
         background-color: #999;
         padding: 0.2vw 0.5vw;
-        border-radius: 2vw;
-        padding: 0.5vw;
+        border-radius: 4vw;
+        padding: 1vw;
         text-align: center;
         &.green {
           background-color: #008e6a;
