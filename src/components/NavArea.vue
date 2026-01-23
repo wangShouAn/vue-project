@@ -219,12 +219,19 @@ nav {
         }
       }
       menu {
+        box-sizing: border-box;
         overflow-x: scroll;
         display: flex;
         position: fixed;
+        width: 80vw;
+        height: auto;
+        min-height: 30vw;
+        top: 5vw;
+        left: 50%;
+        transform: translateX(-50%);
+
         background-color: white;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        transform: translateX(-40%);
         border-radius: 2vw;
         padding: 2vw;
         img {
