@@ -127,20 +127,6 @@ const goToMore = () => {
 </script>
 
 <style lang="scss" scoped>
-// 定義變數
-$primary-green: #008765;
-$hover-green: #27d4a9;
-$button-green: #189072;
-$active-border: #22bc95;
-$bg-beige: #f8f6f2;
-$white: #fff;
-$black: #000;
-
-$transition-base: 0.3s ease;
-$transition-slider: 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-$shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
-
-// 定義混入 (Mixins)
 @mixin flex-center {
   display: flex;
   align-items: center;
@@ -155,11 +141,10 @@ $shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
   height: 100%;
 }
 
-// 樣式主體
 .video-section-outer {
   width: 100%;
   padding: 60px 0;
-  background: $white;
+  background: #fff;
   @include flex-center;
   overflow: hidden;
 }
@@ -182,7 +167,6 @@ $shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
   }
 }
 
-// 標題區域
 .header-area {
   grid-column: 2;
   margin-bottom: 20px;
@@ -201,7 +185,7 @@ $shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
     }
 
     .section-title {
-      color: $primary-green;
+      color: #008765;
       font-size: 32px;
       font-weight: bold;
 
@@ -213,7 +197,6 @@ $shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
   }
 }
 
-// 影片顯示區
 .video-cell {
   grid-column: 1;
   grid-row: 2;
@@ -228,12 +211,12 @@ $shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
     width: 100%;
     border-radius: 15px 15px 0 15px;
     overflow: hidden;
-    background: $black;
-    box-shadow: $shadow-light;
+    background: #000;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 
     .slider-track {
       display: flex;
-      transition: transform $transition-slider;
+      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
       width: 100%;
 
       .slide-item {
@@ -275,7 +258,6 @@ $shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
   }
 }
 
-// 文字內容區
 .content-area {
   grid-column: 2;
   grid-row: 2;
@@ -285,7 +267,7 @@ $shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
   }
 
   .beige-card {
-    background: $bg-beige;
+    background: #f8f6f2;
     border-radius: 0 20px 20px 0;
     margin-left: -60px;
     padding: 40px 40px 40px 100px;
@@ -300,7 +282,7 @@ $shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
       text-align: center;
       min-height: 20px;
       justify-content: center;
-      background-color: $white;
+      background-color: #fff;
     }
 
     .v-title {
@@ -315,7 +297,6 @@ $shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
   }
 }
 
-// 底部控制區
 .footer-cell {
   grid-column: 1 / span 2;
   padding-top: 40px;
@@ -328,7 +309,7 @@ $shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    gap: 45%;
+    gap: 35%;
     width: 100%;
 
     @media (max-width: 1050px) {
@@ -345,38 +326,34 @@ $shadow-light: 0 10px 30px rgba(0, 0, 0, 0.1);
   justify-content: center;
 
   .dot {
-    width: 65px;
-    height: 65px;
+    width: 75px;
+    height: 75px;
     border-radius: 50%;
     background-size: cover;
     background-position: center;
     border: 3px solid transparent;
     cursor: pointer;
-    transition: $transition-base;
+    transition: 0.3s ease;
 
     &.active {
-      border-color: $active-border;
-      transform: scale(1.1);
-    }
-
-    &:hover:not(.active) {
-      opacity: 0.8;
+      border-color: #22bc95;
+      border-width: 5px;
     }
   }
 }
 
 .more-link {
-  background: $button-green;
-  color: $white;
+  background: #189072;
+  color: #fff;
   border: none;
   padding: 12px 35px;
   border-radius: 30px;
   font-weight: bold;
   cursor: pointer;
-  transition: background $transition-base;
+  transition: background 0.3s ease;
 
   &:hover {
-    background: $hover-green;
+    background: #27d4a9;
   }
 }
 </style>

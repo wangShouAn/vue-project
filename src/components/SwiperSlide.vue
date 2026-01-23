@@ -85,31 +85,20 @@ const currentImageUrl = computed(() => {
   <main>
     <section>
       <div class="swiper-slide">
-        <!-- 箭頭按鈕 -->
         <button class="arrow-btn left" @click="prevSlide">❮</button>
         <button class="arrow-btn right" @click="nextSlide">❯</button>
 
-        <!-- 圖片切換區 -->
-        <Transition :name="direction">
-          <div :key="swiper_index" class="slide-item">
-            <a
-              :href="swiper_slide_list[swiper_index].url"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <img :src="currentImageUrl" draggable="false" />
+        <div class="slider-track" :style="{ transform: `translateX(-${swiper_index * 100}%)` }">
+          <div v-for="(item, index) in swiper_slide_list" :key="index" class="slide-item">
+            <a :href="item.url" target="_blank" rel="noopener noreferrer">
+              <img :src="isMobile ? item.img2 : item.img" draggable="false" />
             </a>
           </div>
-        </Transition>
+        </div>
 
         <div class="pagination">
-          <span
-            v-for="(item, index) in swiper_slide_list"
-            :key="index"
-            class="dot"
-            :class="{ active: swiper_index === index }"
-            @click="changeSlide(index)"
-          >
+          <span v-for="(item, index) in swiper_slide_list" :key="index" class="dot"
+            :class="{ active: swiper_index === index }" @click="changeSlide(index)">
             <div v-if="swiper_index === index" class="inner-bar" @animationend="nextSlide"></div>
           </span>
         </div>
@@ -126,10 +115,27 @@ section {
   padding: 20px 0;
 }
 
+.swiper-slide {
+  position: relative;
+  width: 85%;
+  max-width: 1200px;
+  aspect-ratio: 2880 / 990;
+  border-radius: 10% 6% 6% 6% / 40% 10% 10% 100%;
+  box-shadow: 0px 0px 1.5vw rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  background-color: #f0f0f0;
+}
+
+.slider-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
 .slide-item {
-  position: absolute;
-  top: 0;
-  left: 0;
+  flex: 0 0 100%;
   width: 100%;
   height: 100%;
 
@@ -147,27 +153,6 @@ section {
   }
 }
 
-.swiper-slide {
-  position: relative;
-  width: 85%;
-  max-width: 1200px;
-  aspect-ratio: 2880 / 990;
-  border-radius: 10% 6% 6% 6% / 40% 10% 10% 100%;
-  box-shadow: 0px 0px 1.5vw rgba(0, 0, 0, 0.5);
-  overflow: hidden;
-  background-color: #f0f0f0;
-
-  img {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-}
-
-/* 箭頭 */
 .arrow-btn {
   position: absolute;
   top: 50%;
@@ -180,9 +165,7 @@ section {
   cursor: pointer;
   z-index: 20;
   padding: 0 5px;
-  transition:
-    transform 0.2s ease,
-    opacity 0.3s;
+  transition: transform 0.2s ease, opacity 0.3s;
   opacity: 0.7;
   text-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 
@@ -200,7 +183,6 @@ section {
   }
 }
 
-/* 點點與進度條樣式 */
 .pagination {
   position: absolute;
   bottom: 10px;
@@ -220,16 +202,11 @@ section {
     overflow: hidden;
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.5, 1);
     border: 1px solid rgba(255, 255, 255, 0.8);
-    box-sizing: border-box;
 
     &.active {
       width: 200px;
       border-radius: 6px;
       background-color: rgba(255, 255, 255, 0.3);
-    }
-
-    &:hover:not(.active) {
-      background-color: rgb(255, 255, 255);
     }
 
     .inner-bar {
@@ -252,32 +229,6 @@ section {
   to {
     width: 100%;
   }
-}
-
-/* 動畫邏輯：由右往左滑 (預設) */
-.slide-right-enter-from {
-  transform: translateX(100%);
-}
-
-.slide-right-leave-to {
-  transform: translateX(-100%);
-}
-
-/* 動畫邏輯：由左往右滑 (後退) */
-.slide-left-enter-from {
-  transform: translateX(-100%);
-}
-
-.slide-left-leave-to {
-  transform: translateX(100%);
-}
-
-/* 動畫過程設定 */
-.slide-right-enter-active,
-.slide-right-leave-active,
-.slide-left-enter-active,
-.slide-left-leave-active {
-  transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @media screen and (max-width: 840px) {
