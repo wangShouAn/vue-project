@@ -73,40 +73,15 @@ interface Video {
 }
 
 const videoList = [
-  {
-    id: '-qvT8wtz2gA',
-    title: '合庫人壽 一路同行 2025年回顧',
-    desc: '2025 年， 我們不只慶祝 15 週年， 更用行動，陪伴每一段人生。',
-  },
-  {
-    id: '-s7mmCKrPaY',
-    title: '愛的職務',
-    desc: '當父母離去，面對他們留下的遺物時，你會想起他們扮演的哪一個角色？',
-  },
-  {
-    id: 'fYnGJwbBBIQ',
-    title: '合庫人壽校園巡講精華合輯',
-    desc: '風險管理不是害怕未來，而是讓選擇更多、夢想走得更遠。',
-  },
-  {
-    id: 'bn0xi52L1QU',
-    title: '合庫人壽暖心帶領走讀金融街',
-    desc: '合庫人壽喘息學院帶著家庭照顧者「走讀台中金融街」一同穿越百年時光。',
-  },
+  { id: '-qvT8wtz2gA', title: '合庫人壽 一路同行 2025年回顧', desc: '2025 年， 我們不只慶祝 15 週年， 更用行動，陪伴每一段人生。' },
+  { id: '-s7mmCKrPaY', title: '愛的職務', desc: '當父母離去，面對他們留下的遺物時，你會想起他們扮演的哪一個角色？' },
+  { id: 'fYnGJwbBBIQ', title: '合庫人壽校園巡講精華合輯', desc: '風險管理不是害怕未來，而是讓選擇更多、夢想走得更遠。' },
+  { id: 'bn0xi52L1QU', title: '合庫人壽暖心帶領走讀金融街', desc: '合庫人壽喘息學院帶著家庭照顧者「走讀台中金融街」一同穿越百年時光。' },
 ]
 
 const activeIndex = ref(0)
 const playingIndex = ref(-1)
-
-const currentVideo = computed<Video>(() => {
-  return (
-    videoList[activeIndex.value] ?? {
-      id: '',
-      title: '',
-      desc: '',
-    }
-  )
-})
+const currentVideo = computed<Video>(() => videoList[activeIndex.value] || videoList[0])
 
 const startPlay = (index: number) => {
   activeIndex.value = index
@@ -122,87 +97,48 @@ const changeVideo = (index: number) => {
 <style lang="scss" scoped>
 .video-section-outer {
   width: 100%;
-  padding: 50px 0;
+  padding: 80px 0;
   background: #fff;
   display: flex;
   justify-content: center;
 }
 
 .content-container {
-  width: 90%;
-  max-width: 960px;
+  width: 95%;
+  max-width: 1200px;
 }
 
 .video-layout-grid {
   display: grid;
-  grid-template-columns: 60% 40%;
-  grid-template-rows: auto auto auto;
+  // 調整比例，讓右側有空間承載卡片文字
+  grid-template-columns: 62% 38%;
+  grid-template-rows: auto 1fr auto;
   width: 100%;
+  align-items: center;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     display: flex;
     flex-direction: column;
-    align-items: center;
   }
 }
 
-.video-cell {
-  grid-column: 1;
-  grid-row: 1 / span 2; 
-  z-index: 2;
+.header-area {
+  grid-column: 2;
+  grid-row: 1;
+  margin-bottom: 135px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
+    order: 1;
     width: 100%;
-    order: 2; 
-    margin-bottom: 20px;
-  }
-}
-
-.video-wrapper {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  border-radius: 18px;
-  overflow: hidden;
-  background: #000;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.side-info-column {
-  display: flex;
-  flex-direction: column;
-
-  &.header-area {
-    grid-column: 2;
-    grid-row: 1;
-
-    @media (max-width: 768px) {
-      width: 100%;
-      order: 1;
-      margin-bottom: 15px;
-    }
-  }
-
-  &.content-area {
-    grid-column: 2;
-    grid-row: 2;
-
-    @media (max-width: 768px) {
-      width: 100%;
-      order: 3;
-    }
   }
 }
 
 .title-wrapper {
-  position: relative;
-  left: 15%;
-  padding-bottom: 15px;
+  padding-left: 160px;
 
-  @media (max-width: 768px) {
-    left: 0;
+  @media (max-width: 1024px) {
+    padding-left: 0;
     text-align: center;
-    display: flex;
-    justify-content: center;
   }
 
   .section-title {
@@ -213,49 +149,81 @@ const changeVideo = (index: number) => {
   }
 }
 
+.video-cell {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  z-index: 10;
+
+  @media (max-width: 1024px) {
+    order: 2;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+}
+
+.video-wrapper {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.content-area {
+  grid-column: 2;
+  grid-row: 2;
+  height: 85%;
+
+  @media (max-width: 1024px) {
+    order: 3;
+    width: 100%;
+    height: auto;
+  }
+}
+
 .beige-card {
-  background: #f8f6f2;
-  border-radius: 0 20px 20px 0;
-  padding: 40px 30px 40px 80px; 
-  margin-left: -50px; 
-  height: 100%;
+  background: #f8f2e5;
+  border-radius: 0 25px 25px 0;
+  margin-left: -100px;
+  padding: 40px 40px 40px 120px;
   display: flex;
   align-items: center;
+  box-sizing: border-box;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     margin-left: 0;
-    padding: 20px;
-    background: transparent;
-    border-radius: 0;
+    padding: 30px 20px;
+    border-radius: 20px;
+    display: block;
     text-align: center;
-    justify-content: center;
+    background-color: #fff;
   }
 }
 
 .card-inner {
   .v-title {
-    font-size: 20px;
+    font-size: 23px;
     font-weight: bold;
+    margin-bottom: 15px;
     color: #333;
-    margin-bottom: 10px;
   }
 
   .v-desc {
-    font-size: 15px;
+    font-size: 16px;
     color: #666;
-    line-height: 1.6;
+    line-height: 1.8;
   }
 }
 
-// 底部區
 .footer-cell {
   grid-column: 1 / span 2;
   grid-row: 3;
-  padding-top: 30px;
+  padding-top: 50px;
 
-  @media (max-width: 768px) {
-    width: 100%;
+  @media (max-width: 1024px) {
     order: 4;
+    width: 100%;
   }
 }
 
@@ -264,17 +232,16 @@ const changeVideo = (index: number) => {
   justify-content: space-between;
   align-items: center;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     flex-direction: column;
-    gap: 25px;
+    gap: 10px;
   }
 }
 
 .thumb-group {
   display: flex;
-  gap: 15px;
+  gap: 20px;
   flex-wrap: wrap;
-  justify-content: center;
 
   .dot {
     width: 70px;
@@ -284,11 +251,16 @@ const changeVideo = (index: number) => {
     background-size: cover;
     background-position: center;
     cursor: pointer;
-    transition: 0.3s ease;
+    transition: 0.3s;
+    padding: 0;
 
     &.active {
       border-color: #22bc95;
       transform: scale(1.1);
+    }
+
+    &:hover {
+      border-color: #22bc95;
     }
   }
 }
@@ -297,7 +269,7 @@ const changeVideo = (index: number) => {
   background: #22bc95;
   color: #fff;
   border: none;
-  padding: 12px 35px;
+  padding: 14px 40px;
   border-radius: 30px;
   font-size: 16px;
   font-weight: bold;
@@ -309,10 +281,11 @@ const changeVideo = (index: number) => {
   }
 }
 
+/* 滑動與影片內部元件 */
 .slider-track {
   display: flex;
   height: 100%;
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .slide-item {
@@ -331,15 +304,32 @@ const changeVideo = (index: number) => {
   height: 100%;
   background-size: cover;
   background-position: center;
-  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 
-  .play-btn-svg svg {
-    width: 60px;
-    filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.3));
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
   }
+
+  &:hover::before {
+    background: rgba(0, 0, 0, 0);
+  }
+}
+
+.play-btn-svg svg {
+  width: 70px;
+  position: relative;
+  z-index: 2;
+  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
 }
 
 .iframe-fit {
