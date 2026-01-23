@@ -60,7 +60,14 @@ const linkList = [
   },
 ]
 const email = ref('')
-const is_ture_email = computed(() => email.value.includes('@') && email.value.includes('.'))
+const is_ture_email = computed(
+  () =>
+    email.value.includes('@') &&
+    email.value.includes('.') &&
+    email.value.length > 10 &&
+    email.value.length < 100 &&
+    email.value.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/) != null,
+)
 const activeGroups = ref([])
 
 function toggleGroup(title) {
