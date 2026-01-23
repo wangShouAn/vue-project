@@ -189,7 +189,7 @@ onUnmounted(() => {
                 <p>{{ subItem.text }}</p>
                 <div>
                   <template v-for="(subSubItem, si) in subItem.item" :key="si">
-                    <a>{{ subSubItem.text }}</a>
+                    <a>{{ subSubItem.text }} </a>
                     <br />
                   </template>
                 </div>
