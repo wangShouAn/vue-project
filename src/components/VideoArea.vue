@@ -3,7 +3,7 @@
     <div class="content-container">
       <div class="video-layout-grid">
 
-        <div class="side-info-column header-area">
+        <div class="header-area">
           <div class="title-wrapper">
             <h2 class="section-title">影音專區</h2>
           </div>
@@ -18,8 +18,8 @@
                     <div class="video-poster" @click="startPlay(index)" :style="{
                       backgroundImage: `url(https://img.youtube.com/vi/${video.id}/maxresdefault.jpg)`,
                     }">
-                      <div class="play-btn-svg">
-                        <svg viewBox="0 0 68 48">
+                      <div class="play-btn-wrapper">
+                        <svg viewBox="0 0 68 48" class="custom-play-svg">
                           <path fill="#f00"
                             d="M66.5 7.7c-.8-2.9-2.5-5.4-5.4-6.2C55.8.1 34 0 34 0S12.2.1 6.9 1.5c-2.9.8-4.6 3.3-5.4 6.2C0 13 0 24 0 24s0 11 1.5 16.3c.8 2.9 2.5 5.4 5.4 6.2 5.3 1.4 27.1 1.5 27.1 1.5s21.8-.1 27.1-1.5c2.9-.8 4.6-3.3 5.4-6.2C68 35 68 24 68 24s0-11-1.5-16.3z" />
                           <path fill="#fff" d="M45 24L27 14v20z" />
@@ -37,7 +37,7 @@
           </div>
         </div>
 
-        <div class="side-info-column content-area">
+        <div class="content-area">
           <div class="beige-card">
             <div class="card-inner">
               <h3 class="v-title">{{ currentVideo.title }}</h3>
@@ -66,12 +66,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 
-interface Video {
-  id: string
-  title: string
-  desc: string
-}
-
 const videoList = [
   { id: '-qvT8wtz2gA', title: '合庫人壽 一路同行 2025年回顧', desc: '2025 年， 我們不只慶祝 15 週年， 更用行動，陪伴每一段人生。' },
   { id: '-s7mmCKrPaY', title: '愛的職務', desc: '當父母離去，面對他們留下的遺物時，你會想起他們扮演的哪一個角色？' },
@@ -81,7 +75,7 @@ const videoList = [
 
 const activeIndex = ref(0)
 const playingIndex = ref(-1)
-const currentVideo = computed<Video>(() => videoList[activeIndex.value] || videoList[0])
+const currentVideo = computed(() => videoList[activeIndex.value] || videoList[0])
 
 const startPlay = (index: number) => {
   activeIndex.value = index
@@ -97,244 +91,214 @@ const changeVideo = (index: number) => {
 <style lang="scss" scoped>
 .video-section-outer {
   width: 100%;
-  padding: 80px 0;
+  padding: 60px 0;
   background: #fff;
   display: flex;
   justify-content: center;
+  overflow: hidden;
 }
 
 .content-container {
-  width: 95%;
-  max-width: 1200px;
+  width: 90%;
+  max-width: 1100px;
 }
 
 .video-layout-grid {
   display: grid;
-  // 調整比例，讓右側有空間承載卡片文字
-  grid-template-columns: 62% 38%;
-  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 60% 40%;
+  align-items: end;
   width: 100%;
-  align-items: center;
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1050px) {
     display: flex;
     flex-direction: column;
+    align-items: stretch;
   }
 }
 
 .header-area {
   grid-column: 2;
-  grid-row: 1;
-  margin-bottom: 135px;
+  margin-bottom: 20px;
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1050px) {
     order: 1;
-    width: 100%;
+    text-align: center;
   }
 }
 
 .title-wrapper {
-  padding-left: 160px;
+  padding-left: 150px;
+  margin-bottom: -80px;
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1050px) {
     padding-left: 0;
-    text-align: center;
   }
 
   .section-title {
     color: #008765;
     font-size: 32px;
     font-weight: bold;
-    margin: 0;
+    @media(max-width: 1050px) {
+        margin-bottom: 80px;
+        padding-right: 500px;
+
+    }
   }
 }
 
 .video-cell {
   grid-column: 1;
-  grid-row: 1 / span 2;
-  z-index: 10;
+  grid-row: 2;
+  z-index: 5;
+  width: 100%;
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1050px) {
     order: 2;
-    width: 100%;
-    margin-bottom: 20px;
   }
 }
 
 .video-wrapper {
   width: 100%;
-  aspect-ratio: 16 / 9;
-  border-radius: 20px;
+  border-radius: 15px 15px 0 15px;
   overflow: hidden;
   background: #000;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-}
-
-.content-area {
-  grid-column: 2;
-  grid-row: 2;
-  height: 85%;
-
-  @media (max-width: 1024px) {
-    order: 3;
-    width: 100%;
-    height: auto;
-  }
-}
-
-.beige-card {
-  background: #f8f2e5;
-  border-radius: 0 25px 25px 0;
-  margin-left: -100px;
-  padding: 40px 40px 40px 120px;
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-
-  @media (max-width: 1024px) {
-    margin-left: 0;
-    padding: 30px 20px;
-    border-radius: 20px;
-    display: block;
-    text-align: center;
-    background-color: #fff;
-  }
-}
-
-.card-inner {
-  .v-title {
-    font-size: 23px;
-    font-weight: bold;
-    margin-bottom: 15px;
-    color: #333;
-  }
-
-  .v-desc {
-    font-size: 16px;
-    color: #666;
-    line-height: 1.8;
-  }
-}
-
-.footer-cell {
-  grid-column: 1 / span 2;
-  grid-row: 3;
-  padding-top: 50px;
-
-  @media (max-width: 1024px) {
-    order: 4;
-    width: 100%;
-  }
-}
-
-.footer-flex-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    gap: 10px;
-  }
-}
-
-.thumb-group {
-  display: flex;
-  gap: 20px;
-  flex-wrap: wrap;
-
-  .dot {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    border: 3px solid transparent;
-    background-size: cover;
-    background-position: center;
-    cursor: pointer;
-    transition: 0.3s;
-    padding: 0;
-
-    &.active {
-      border-color: #22bc95;
-      transform: scale(1.1);
-    }
-
-    &:hover {
-      border-color: #22bc95;
-    }
-  }
-}
-
-.more-link {
-  background: #22bc95;
-  color: #fff;
-  border: none;
-  padding: 14px 40px;
-  border-radius: 30px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s;
-
-  &:hover {
-    background: #1fa884;
-  }
-}
-
-/* 滑動與影片內部元件 */
-.slider-track {
-  display: flex;
-  height: 100%;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.slide-item {
-  min-width: 100%;
-  height: 100%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
 .video-ratio-box {
   position: relative;
   width: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
+}
+
+.video-poster,
+.iframe-fit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 
 .video-poster {
-  width: 100%;
-  height: 100%;
   background-size: cover;
   background-position: center;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.1);
-    transition: 0.3s;
-  }
-
-  &:hover::before {
-    background: rgba(0, 0, 0, 0);
-  }
 }
 
-.play-btn-svg svg {
-  width: 70px;
-  position: relative;
-  z-index: 2;
-  filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
+.play-btn-wrapper {
+  width: 68px;
+  height: 48px;
+  z-index: 10;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
 }
 
-.iframe-fit {
+.custom-play-svg {
   width: 100%;
   height: 100%;
+}
+
+.content-area {
+  grid-column: 2;
+  grid-row: 2;
+
+  @media (max-width: 1050px) {
+    order: 3;
+  }
+}
+
+.beige-card {
+  background: #f8f6f2;
+  border-radius: 0 20px 20px 0;
+  margin-left: -60px;
+  padding: 40px 40px 40px 100px;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+
+  @media (max-width: 1050px) {
+    margin: -20px 0 0 0;
+    padding: 40px 20px;
+    border-radius: 20px;
+    text-align: center;
+    min-height: 20px;
+    justify-content: center;
+    background-color: white;
+  }
+}
+
+.footer-cell {
+  grid-column: 1 / span 2;
+  padding-top: 40px;
+
+  @media (max-width: 1050px) {
+    order: 4;
+  }
+}
+
+.footer-flex-row {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 45%;
+  width: 100%;
+
+  @media (max-width: 1050px) {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+.thumb-group {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  .dot {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    background-size: cover;
+    border: 3px solid transparent;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &.active {
+      border-color: #22bc95;
+      transform: scale(1.1);
+    }
+  }
+}
+
+.more-link {
+  background: #189072;
+  color: #fff;
   border: none;
+  padding: 12px 35px;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-left: 0;
+  transition: background 0.3s ease;
+
+  &:hover {
+    background: #27d4a9;
+  }
+}
+
+.slider-track {
+  display: flex;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+}
+
+.slide-item {
+  min-width: 100%;
 }
 </style>
