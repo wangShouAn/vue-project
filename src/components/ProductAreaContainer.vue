@@ -42,76 +42,71 @@ const product_items = [
 .product-area-wrapper {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  margin: 10vw auto;
-  width: 80%;
-  padding: 0;
-
-  border-radius: 10px;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 12px;
+  margin: 40px auto;
+  width: 100%;
+  max-width: 1200px;
+  padding: 20px;
 
   button {
-    position: relative;
-    display: block;
     all: unset;
     cursor: pointer;
     box-sizing: border-box;
-    margin: 1vw;
-    padding: 0.5vw;
-    width: 9vw;
-    height: 9vw;
-    border-radius: 1.2vw;
-    box-shadow: 0 2px 1vw rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease-in-out;
-    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 200px;
+    padding: 1rem;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 10px 0 rgba(0, 0, 0, 0.1);
 
     img {
-      width: 3vw;
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      margin: 0;
-      padding: 0;
+      width: 75px;
+      height: auto;
+      margin-bottom: 0.5rem;
+      align-self: center;
     }
 
     h2 {
-      position: absolute;
-      top: 30%;
-      font-size: 1vw;
-      margin: 0;
-      padding: 0.5vw;
+      font-size: 3vh;
+      margin: 0 0 0.5rem 0;
+      color: #333;
+      text-align: left;
+      width: 100%;
     }
 
     p {
+      font-size: 2vh;
       color: #02020296;
-      position: absolute;
-      top: 60%;
       margin: 0;
-      padding: 0;
-      font-size: 0.8vw;
+      text-align: left;
+      line-height: 1.4;
+      width: 100%;
     }
   }
-  @media screen and (max-width: 840px) {
-    justify-content: left;
-    align-items: center;
-    width: 100%;
+
+  @media screen and (max-width: 1100px) {
     button {
-      width: 48vw;
-      height: 20vw;
-      img {
-        width: 10vw;
-      }
-      h2 {
-        padding: 2vw;
-        top: 35%;
-        font-size: 3vw;
-      }
-      p {
-        margin: 2vw;
-        font-size: 2vw;
-      }
+      width: calc(50% - 12px);
     }
+
+    h2 {
+      font-size: 3vw;
+    }
+
+    p {
+      font-size: 2vw;
+    }
+  }
+}
+
+@media screen and (max-width: 480px) {
+  button {
+    width: 100%;
   }
 }
 </style>
