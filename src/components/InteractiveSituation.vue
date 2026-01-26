@@ -154,7 +154,7 @@ const Menu = [
           <p v-for="(text, tidx) in Menu[MenuIndex].item[popIndex - 1].text" :key="tidx">
             {{ text }}
           </p>
-          <button v-if="Menu[MenuIndex].item[popIndex - 1].button">
+          <button v-if="Menu[MenuIndex].item[popIndex - 1].button" style="margin: 1vw 0">
             {{ Menu[MenuIndex].item[popIndex - 1].button.text }}
           </button>
           <button
@@ -278,6 +278,7 @@ popback {
       padding: 20px;
       box-sizing: border-box;
       p {
+        color: #00a97f;
         margin: 0;
         font-size: 1.5vw;
         margin-bottom: 10px;
