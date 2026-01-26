@@ -5,9 +5,9 @@ const MenuIndex = ref(4)
 const popIndex = ref(0)
 
 const question = [
-  { x: 20, y: 20 },
+  { x: 14, y: 30 },
   { x: 38, y: 40 },
-  { x: 70, y: 40 },
+  { x: 77, y: 44 },
 ]
 
 const Menu = [
@@ -84,7 +84,7 @@ const Menu = [
     </interactive-situation-header>
   </section>
   <br /><br /><br />
-  <section style="position: relative">
+  <section class="image-wrapper">
     <img
       id="fdss"
       src="https://my.tcb-life.com.tw/assets/storys-BWNGk7Ph.png"
@@ -98,6 +98,7 @@ const Menu = [
 
     <img
       v-for="(item, index) in question"
+      class="marker-animation"
       src="data:image/svg+xml,%3csvg%20width='32'%20height='32'%20viewBox='0%200%2032%2032'%20fill='none'%20xmlns='http://www.w3.org/2000/svg'%3e%3ccircle%20cx='15.5'%20cy='15.5'%20r='13.5'%20fill='%23FFBF00'/%3e%3crect%20x='14'%20y='6'%20width='4'%20height='12'%20rx='2'%20fill='white'/%3e%3ccircle%20cx='16'%20cy='23'%20r='2'%20fill='white'/%3e%3c/svg%3e"
       :style="{
         position: 'absolute',
@@ -107,6 +108,7 @@ const Menu = [
         width: '32px',
         height: '32px',
         cursor: 'pointer',
+        transform: 'translate(-50%, -50%)',
       }"
       :key="index"
       @click="((MenuIndex = index), (popIndex = 0))"
@@ -154,7 +156,7 @@ const Menu = [
           <p v-for="(text, tidx) in Menu[MenuIndex].item[popIndex - 1].text" :key="tidx">
             {{ text }}
           </p>
-          <button v-if="Menu[MenuIndex].item[popIndex - 1].button">
+          <button v-if="Menu[MenuIndex].item[popIndex - 1].button" style="margin: 1vw 0">
             {{ Menu[MenuIndex].item[popIndex - 1].button.text }}
           </button>
           <button
@@ -176,6 +178,29 @@ const Menu = [
 </template>
 
 <style lang="scss" scoped>
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -70%) scale(1.2);
+  }
+}
+
+.marker-animation {
+  animation: bounce 2s infinite ease-in-out;
+}
+
+.image-wrapper {
+  position: relative;
+  width: 80%;
+  margin: 0 auto;
+  @media screen and (max-width: 840px) {
+    width: 100%;
+  }
+}
+
 interactive-situation-header {
   margin-top: 50px;
   position: absolute;
@@ -203,15 +228,12 @@ interactive-situation-header {
     }
   }
 }
+
 #fdss {
-  width: 80%;
-  position: relative;
-  left: 50%;
-  transform: translateX(-50%);
-  @media screen and (max-width: 840px) {
-    width: 100%;
-  }
+  width: 100%;
+  display: block;
 }
+
 popback {
   position: fixed;
   top: 0;
@@ -240,7 +262,7 @@ popback {
       button {
         background-color: #00000000;
         border: none;
-        color: #777;
+        color: #aaa;
         font-size: 2.5vw;
         padding: 1vw;
         cursor: pointer;
@@ -278,6 +300,7 @@ popback {
       padding: 20px;
       box-sizing: border-box;
       p {
+        color: #4aae95;
         margin: 0;
         font-size: 1.5vw;
         margin-bottom: 10px;

@@ -141,8 +141,9 @@ const navItems = ref([
       ],
     ],
   },
-  { open: false, name: '🤔' },
 ])
+
+const isSearchOpen = ref(false)
 
 function openMenu(index) {
   navItems.value.forEach((item) => {
@@ -169,6 +170,10 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
 })
+
+function toggleSearch() {
+  isSearchOpen.value = !isSearchOpen.value
+}
 </script>
 
 <template>
@@ -198,8 +203,20 @@ onUnmounted(() => {
           </ul>
         </menu>
       </li>
+      <li>
+        <button id="search" @click="toggleSearch">🤔</button>
+
+        <searchMenu v-if="isSearchOpen">
+          <h2>關鍵字搜尋</h2>
+          <div>
+            <input type="text" placeholder="請輸入關鍵字" />
+            <button>🤔</button>
+          </div>
+        </searchMenu>
+      </li>
     </ul>
   </nav>
+  <searchback @click.self="toggleSearch" v-if="isSearchOpen" />
 </template>
 <style lang="scss" scoped>
 nav {
@@ -220,7 +237,7 @@ nav {
   z-index: 9999;
   margin-top: 1vw;
   border-radius: 4vw;
-  transform: translateX(-15%);
+  transform: translateX(-17%);
   img {
     width: 16vw;
   }
@@ -306,5 +323,58 @@ nav {
       }
     }
   }
+}
+#search {
+  &:hover {
+    background-color: #00000000;
+  }
+}
+searchMenu {
+  padding: 1vw;
+  position: absolute;
+  display: block;
+  top: 5vw;
+  width: 35vw;
+  transform: translateX(-85%);
+  border-radius: 1vw;
+  overflow: hidden;
+  background-color: #fff;
+  border: 1px solid #000;
+  h2 {
+    font-size: 2vw;
+    margin: 0;
+    margin-bottom: 2vw;
+  }
+  div {
+    position: relative;
+  }
+  button {
+    position: absolute;
+    top: 10%;
+    right: 0;
+    padding: 1vw;
+    font-size: 1.5vw;
+    background-color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+  input {
+    all: unset;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 1vw;
+    font-size: 1.5vw;
+    border: #aaa 1px solid;
+
+    margin-bottom: 1vw;
+  }
+}
+searchback {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9998;
 }
 </style>
