@@ -300,7 +300,7 @@ popback {
       padding: 20px;
       box-sizing: border-box;
       p {
-        color: #00a97f;
+        color: #4aae95;
         margin: 0;
         font-size: 1.5vw;
         margin-bottom: 10px;
