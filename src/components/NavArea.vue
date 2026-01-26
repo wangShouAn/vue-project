@@ -217,7 +217,7 @@ nav {
   position: sticky;
   top: 2vw;
   left: 50%;
-  z-index: 999;
+  z-index: 9999;
   margin-top: 1vw;
   border-radius: 4vw;
   transform: translateX(-15%);

@@ -28,7 +28,7 @@ onUnmounted(() => {
 
 <style scoped lang="scss">
 button {
-  z-index: 99999;
+  z-index: 59999;
   border: none;
   position: fixed;
   padding: 0.5vw;
