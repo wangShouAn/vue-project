@@ -237,7 +237,7 @@ nav {
   z-index: 9999;
   margin-top: 1vw;
   border-radius: 4vw;
-  transform: translateX(-15%);
+  transform: translateX(-17%);
   img {
     width: 16vw;
   }
