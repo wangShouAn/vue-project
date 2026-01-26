@@ -105,8 +105,8 @@ const Menu = [
         top: item.y + '%',
         left: item.x + '%',
         zIndex: 1000,
-        width: '32px',
-        height: '32px',
+        width: '3vw',
+        height: '3vw',
         cursor: 'pointer',
         transform: 'translate(-50%, -50%)',
       }"
