@@ -233,6 +233,7 @@ function toggleSearch() {
 nav {
   &.isVisible {
     box-shadow: none;
+    background-color: #00000000;
   }
   transition: all 1s linear;
   box-shadow: 0 0 1vw rgba(0, 0, 0, 0.4);
@@ -350,7 +351,7 @@ searchMenu {
   border-radius: 1vw;
   overflow: hidden;
   background-color: #fff;
-  border: 1px solid #000;
+  border: 1px solid #aaa;
   h2 {
     font-size: 2vw;
     margin: 0;
@@ -371,12 +372,12 @@ searchMenu {
   }
   input {
     all: unset;
+    border-radius: 2vw;
     box-sizing: border-box;
     width: 100%;
     padding: 1vw;
     font-size: 1.5vw;
     border: #aaa 1px solid;
-
     margin-bottom: 1vw;
   }
 }
