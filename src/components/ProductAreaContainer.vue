@@ -100,7 +100,7 @@ const goToUrl = (url) => {
 
   @media screen and (max-width: 1100px) {
     justify-content: flex-start;
-    padding-left: 5px;
+    padding-left: 8px;
 
     button {
       width: calc(50% - 12px);
