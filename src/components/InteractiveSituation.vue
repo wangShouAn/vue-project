@@ -184,7 +184,7 @@ const Menu = [
     transform: translate(-50%, -50%) scale(1);
   }
   50% {
-    transform: translate(-50%, -70%) scale(1.1);
+    transform: translate(-50%, -70%) scale(1.2);
   }
 }
 
@@ -262,7 +262,7 @@ popback {
       button {
         background-color: #00000000;
         border: none;
-        color: #777;
+        color: #aaa;
         font-size: 2.5vw;
         padding: 1vw;
         cursor: pointer;
