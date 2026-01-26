@@ -205,7 +205,7 @@ function toggleSearch() {
                 <p>{{ subItem.text }}</p>
                 <div>
                   <template v-for="(subSubItem, si) in subItem.item" :key="si">
-                    <a>{{ subSubItem.text }} </a>
+                    <a :href="subSubItem.text">{{ subSubItem.text }} </a>
                     <br />
                   </template>
                 </div>
