@@ -36,6 +36,17 @@ const navItems = ref([
         },
         { text: '保華強制執行專區', type: 'link' },
       ],
+      [
+        {
+          text: '理賠服務',
+          type: 'title',
+          item: [
+            { text: '保單理賠', type: 'link' },
+            { text: '理賠聯盟服務', type: 'link' },
+            { text: '理賠醫起通服務', type: 'link' },
+          ],
+        },
+      ],
     ],
   },
   { open: false, name: '安心守護' },
