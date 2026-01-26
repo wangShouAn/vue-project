@@ -14,30 +14,21 @@
               <div v-for="(video, index) in videoList" :key="video.id" class="slide-item">
                 <div class="video-ratio-box">
                   <template v-if="playingIndex !== index">
-                    <div
-                      class="video-poster"
-                      @click="startPlay(index)"
-                      :style="{
-                        backgroundImage: `url(https://img.youtube.com/vi/${video.id}/maxresdefault.jpg)`,
-                      }"
-                    >
+                    <div class="video-poster" @click="startPlay(index)" :style="{
+                      backgroundImage: `url(https://img.youtube.com/vi/${video.id}/maxresdefault.jpg)`,
+                    }">
                       <div class="play-btn-wrapper">
                         <svg viewBox="0 0 68 48" class="custom-play-svg">
-                          <path
-                            fill="#f00"
-                            d="M66.5 7.7c-.8-2.9-2.5-5.4-5.4-6.2C55.8.1 34 0 34 0S12.2.1 6.9 1.5c-2.9.8-4.6 3.3-5.4 6.2C0 13 0 24 0 24s0 11 1.5 16.3c.8 2.9 2.5 5.4 5.4 6.2 5.3 1.4 27.1 1.5 27.1 1.5s21.8-.1 27.1-1.5c2.9-.8 4.6-3.3 5.4-6.2C68 35 68 24 68 24s0-11-1.5-16.3z"
-                          />
+                          <path fill="#f00"
+                            d="M66.5 7.7c-.8-2.9-2.5-5.4-5.4-6.2C55.8.1 34 0 34 0S12.2.1 6.9 1.5c-2.9.8-4.6 3.3-5.4 6.2C0 13 0 24 0 24s0 11 1.5 16.3c.8 2.9 2.5 5.4 5.4 6.2 5.3 1.4 27.1 1.5 27.1 1.5s21.8-.1 27.1-1.5c2.9-.8 4.6-3.3 5.4-6.2C68 35 68 24 68 24s0-11-1.5-16.3z" />
                           <path fill="#fff" d="M45 24L27 14v20z" />
                         </svg>
                       </div>
                     </div>
                   </template>
                   <template v-else>
-                    <iframe
-                      :src="`https://www.youtube.com/embed/${video.id}?autoplay=1`"
-                      class="iframe-fit"
-                      allow="autoplay; fullscreen"
-                    ></iframe>
+                    <iframe :src="`https://www.youtube.com/embed/${video.id}?autoplay=1`" class="iframe-fit"
+                      allow="autoplay; fullscreen"></iframe>
                   </template>
                 </div>
               </div>
@@ -57,16 +48,10 @@
         <div class="footer-cell">
           <div class="footer-flex-row">
             <div class="thumb-group">
-              <button
-                v-for="(video, index) in videoList"
-                :key="video.id"
-                @click="changeVideo(index)"
-                class="dot"
-                :class="{ active: activeIndex === index }"
-                :style="{
+              <button v-for="(video, index) in videoList" :key="video.id" @click="changeVideo(index)" class="dot"
+                :class="{ active: activeIndex === index }" :style="{
                   backgroundImage: `url(https://img.youtube.com/vi/${video.id}/mqdefault.jpg)`,
-                }"
-              ></button>
+                }"></button>
             </div>
             <button class="more-link" @click="goToMore">看更多 ↗</button>
           </div>
@@ -223,6 +208,7 @@ const goToMore = () => {
         min-width: 100%;
       }
     }
+
     @media screen and (max-width: 840px) {
       border-radius: 15px;
     }
