@@ -4,36 +4,36 @@ const product_items = [
     name: '投資型保險',
     img: 'https://my.tcb-life.com.tw/api/assets/272a480d-aefa-49e5-bca4-bc3d25d515f3',
     desc: '一次擁有保險保障與市場投資機會',
-    url: 'https://my.tcb-life.com.tw/product-UL'
+    url: 'https://my.tcb-life.com.tw/product-UL',
   },
   {
     name: '壽險',
     img: 'https://my.tcb-life.com.tw/api/assets/c95adf3f-23b8-481d-aa15-a0860bf7edca',
     desc: '轉嫁死亡風險，提供家人財務未來',
-    url: 'https://my.tcb-life.com.tw/product-life'
+    url: 'https://my.tcb-life.com.tw/product-life',
   },
   {
     name: '意外傷害保險',
     img: 'https://my.tcb-life.com.tw/api/assets/4fa16849-eed9-4cfa-b050-8978aade7be2',
     desc: '面對突發意外，多一份保障',
-    url: 'https://my.tcb-life.com.tw/product-accident'
+    url: 'https://my.tcb-life.com.tw/product-accident',
   },
   {
     name: '健康醫療保險',
     img: 'https://my.tcb-life.com.tw/api/assets/614fcce8-08be-4c59-bcc4-a2b2d9a9f07e',
     desc: '健保協同商保，醫療保障更到位',
-    url: 'https://my.tcb-life.com.tw/product-health'
+    url: 'https://my.tcb-life.com.tw/product-health',
   },
   {
     name: '房貸型保險',
     img: 'https://my.tcb-life.com.tw/api/assets/a2d0ed5b-ca82-4326-998d-3072526747f8',
     desc: '移轉房貸期間的可能風險，留愛不留債',
-    url: 'https://my.tcb-life.com.tw/product-mortgage'
+    url: 'https://my.tcb-life.com.tw/product-mortgage',
   },
 ]
 const goToUrl = (url) => {
-  if (url) window.location.href = url;
-};
+  if (url) window.location.href = url
+}
 </script>
 
 <template>
@@ -57,7 +57,6 @@ const goToUrl = (url) => {
   width: 100%;
   max-width: 1200px;
   padding: 20px;
-  background-color: rgb(242, 238, 232);
 
   button {
     all: unset;
@@ -114,7 +113,6 @@ const goToUrl = (url) => {
     p {
       font-size: 18px !important;
     }
-
   }
 
   @media screen and (max-width: 700px) {
