@@ -22,7 +22,7 @@ onUnmounted(() => {
 
 <template>
   <Transition>
-    <button v-show="isVisible" @click="topFunction()">🔺</button>
+    <button v-show="isVisible" @click="topFunction()">^</button>
   </Transition>
 </template>
 
@@ -32,6 +32,7 @@ button {
   border: none;
   position: fixed;
   padding: 0.5vw;
+  width: 3.5vw;
   right: 5vw;
   bottom: 5vw;
   background-color: #008e6bb9;
@@ -47,6 +48,7 @@ button {
   @media screen and (max-width: 840px) {
     font-size: 4vw;
     padding: 1vw;
+    width: 7vw;
   }
 }
 .v-enter-active,
