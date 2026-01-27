@@ -191,7 +191,7 @@ const goToMore = () => {
 
       @media (max-width: 1050px) {
         margin-bottom: 80px;
-        padding-right: 400px;
+        padding-right: 60vw;
       }
     }
   }

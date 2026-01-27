@@ -5,7 +5,7 @@ const MenuIndex = ref(4)
 const popIndex = ref(0)
 
 const question = [
-  { x: 14, y: 30 },
+  { x: 12, y: 25 },
   { x: 38, y: 40 },
   { x: 77, y: 44 },
 ]
@@ -105,8 +105,8 @@ const Menu = [
         top: item.y + '%',
         left: item.x + '%',
         zIndex: 1000,
-        width: '32px',
-        height: '32px',
+        width: '3vw',
+        height: '3vw',
         cursor: 'pointer',
         transform: 'translate(-50%, -50%)',
       }"
@@ -181,15 +181,15 @@ const Menu = [
 @keyframes bounce {
   0%,
   100% {
-    transform: translate(-50%, -50%) scale(1);
+    transform: scale(1);
   }
   50% {
-    transform: translate(-50%, -70%) scale(1.2);
+    transform: scale(1.2);
   }
 }
 
 .marker-animation {
-  animation: bounce 2s infinite ease-in-out;
+  animation: bounce 1s infinite ease-in-out;
 }
 
 .image-wrapper {
