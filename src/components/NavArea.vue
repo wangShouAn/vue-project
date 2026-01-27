@@ -274,6 +274,7 @@ cus-container {
   background-color: #d6f0ea;
   z-index: 99999;
   font-weight: bold;
+  font-size: 1.5vw;
   a {
     color: #008e6a;
     text-decoration: none;

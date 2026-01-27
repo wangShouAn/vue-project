@@ -29,5 +29,5 @@ import Footer from './components/Footer.vue'
     <VideoArea />
     <Announcement />
   </main>
-  <Footer />
+  <Footer> </Footer>
 </template>
