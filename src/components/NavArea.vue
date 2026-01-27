@@ -1,5 +1,5 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed, watchEffect } from 'vue'
 
 const logo =
   'https://my.tcb-life.com.tw/assets/%E5%90%88%E5%BA%AB%E4%BA%BA%E5%A3%BDLOGO-BPgS4Q-a.svg'
@@ -156,6 +156,8 @@ const navItems = ref([
 
 const isSearchOpen = ref(false)
 
+const isMobile = ref(false)
+
 function openMenu(index) {
   navItems.value.forEach((item) => {
     item.open = false
@@ -176,10 +178,16 @@ function handleScroll() {
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
+  window.addEventListener('resize', () => {
+    isMobile.value = window.innerWidth < 768
+  })
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
+  window.removeEventListener('resize', () => {
+    isMobile.value = window.innerWidth < 768
+  })
 })
 
 function toggleSearch() {
@@ -188,7 +196,7 @@ function toggleSearch() {
 </script>
 
 <template>
-  <nav :class="{ isVisible: !isVisible }">
+  <nav :class="{ isVisible: !isVisible }" v-if="!isMobile">
     <img :src="logo" />
     <ul>
       <li v-for="(item, index) in navItems" :key="index">
@@ -227,9 +235,51 @@ function toggleSearch() {
       </li>
     </ul>
   </nav>
+
+  <nav2 :class="{ isVisible: isVisible }" v-else>
+    <button>三</button>
+    <img :src="logo" />
+    <p></p>
+  </nav2>
   <searchback @click.self="toggleSearch" v-if="isSearchOpen" />
 </template>
 <style lang="scss" scoped>
+nav2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 8vw;
+  background-color: #fff;
+  box-shadow: 0 0 1vw rgba(0, 0, 0, 0.4);
+  position: sticky;
+  top: 1vw;
+  left: 0;
+  z-index: 9999;
+  margin-top: 1vw;
+  border-radius: 4vw;
+  width: 90vw;
+  transform: translateX(2%);
+
+  padding: 0 3vw;
+  img {
+    width: 25vw;
+  }
+  p {
+    font-size: 1vw;
+    color: #000;
+    margin: 0;
+    margin-left: 1vw;
+  }
+  button {
+    background-color: #00000000;
+    border: none;
+    font-size: 3vw;
+    color: #000;
+    margin: 0;
+    margin-right: 1vw;
+    cursor: pointer;
+  }
+}
 nav {
   &.isVisible {
     box-shadow: none;
